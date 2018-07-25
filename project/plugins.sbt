@@ -7,3 +7,5 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.17")
 // basis using disablePlugins(PlayEnhancer) in your build.sbt
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-enhancer" % "1.2.2")
 
+// Eclipse plugin, see https://github.com/typesafehub/sbteclipse
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "5.2.4")
