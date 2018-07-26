@@ -32,7 +32,7 @@ public class HomeController extends Controller {
        }*/
 
         return ok("PB's welcome page \nWelcome " + name);
-    }
+
 
  /*   public CompletionStage<Result> message() {
         return ok("PB's welcome page ");
