@@ -19,6 +19,7 @@ public class Module extends AbstractModule {
 
     @Override
     public void configure() {
+        // Demo
         // Use the system clock as the default implementation of Clock
         bind(Clock.class).toInstance(Clock.systemDefaultZone());
         // Ask Guice to create an instance of ApplicationTimer when the
