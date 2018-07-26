@@ -1,14 +1,18 @@
-@(title: String)
+@import Model.TweetModel;
+@(tweetList: List[TweetModel])
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>@title</title>
+		<title>Tweet Miner</title>
 	</head>
 	<body>
-		<form>
-			<input type = "search" name = "keywords">
-			<button type = "submit" value="Search">
-		</form>
+		<ul>
+			@for(tweet <- tweetList) {
+  				<h5>@tweet.getAuthor()</h5>
+  				<p>@tweet.getText()</p>
+  				<br>
+			}
+		</ul>
 	</body>
 </html>

@@ -1,7 +1,10 @@
 package services;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+import Model.TweetModel;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -18,22 +21,35 @@ public class TwitterService {
 	    return twitterInstance;
 	}
 	
-	public static List<Status> getTweets(String keywords) {
+	public static CompletableFuture<List<TweetModel>> getTweets(String keywords) {
+	
+		CompletableFuture <List<TweetModel>> futureTweets = new CompletableFuture <> ();
 		
-		List<Status> tweets = null;
+		List<TweetModel> tweetList = new ArrayList();
 		
 		Twitter twitter = getInstance();
-		
 		Query query = new Query(keywords);
 		QueryResult result;
 		
 		try {
 			result = twitter.search(query);
-			tweets = result.getTweets();
+			List<Status> tweets = result.getTweets();
+			
+			tweets.forEach(tweet -> {
+				TweetModel tm = new TweetModel();
+				tm.setText(tweet.getText());
+				tm.setAuthor(tweet.getUser().getName());
+				//tm.setGeolocation(tweet.getGeoLocation().toString());
+				tweetList.add(tm);
+				//tm.setHashtags(tweet.getHashtagEntities());
+				//tm.setSentiment(tweet.get);
+			});
 			
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
-		return tweets;
+		
+		futureTweets.complete(tweetList);
+		return futureTweets;
 	}
 }
