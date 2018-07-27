@@ -1,5 +1,6 @@
 @import Model.TweetModel;
-@(tweetList: List[TweetModel])
+
+@(tweetList: List[TweetModel])(searchTerms:String)
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,24 +8,25 @@
 		<title>Tweet Miner</title>
 	</head>
 	<body>
-		<ul>
-			<ol>
+		<form>
+			<input type="input"></form>
+			<t>
+		</form>
+
+		<h4> Search Terms: <a href = "@routes.SearchController.tweetWords(searchTerms)">@searchTerms </a></h4>
+		<ol>
 			@for(tweet <- tweetList) {
   				<li>
   					<p> 
-  						<b>@tweet.getAuthor() (@tweet.getLocation()): </b> 
+  						<b>
+  						<a href ="@routes.SearchController.userProfile(tweet.getAuthor())">@tweet.getAuthor()</a>
+  						<a href ="@routes.SearchController.locationTweets(tweet.getLocation())">(@tweet.getLocation()): </a>
+  						</b> 
   						@tweet.getText()
-
-  						@(hashTagList: List[String])
-
-  						@for() {
-
-  						}
-
+  						@tweet.getOneHashtag()
   					</p>
   				</li>
 			}
-			</ol>
-		</ul>
+		</ol>
 	</body>
 </html>

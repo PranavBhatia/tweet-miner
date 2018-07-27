@@ -54,6 +54,11 @@ public class TweetModel {
 			.map(h->"#"+h.getText())
 			.collect(toList());
 	}
+	
+	public String getOneHashtag() {
+		if (hashtags.size() == 0) return "No hashtags";
+		return "#" + hashtags.get(0).getText();
+	}
 	/**
 	 * @param hashtags the hashtags to set
 	 */

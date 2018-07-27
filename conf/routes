@@ -13,3 +13,10 @@ GET     /message                    controllers.AsyncController.message
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
 GET		/search/:keywords			controllers.SearchController.search(keywords: String)
+
+GET	    /tweetWords/:searchTerms	controllers.SearchController.tweetWords(searchTerms: String)
+
+GET	    /locationTweets/:location	controllers.SearchController.locationTweets(location: String)
+
+GET	    /userProfile/:searchTerms	controllers.SearchController.userProfile(searchTerms: String)
+

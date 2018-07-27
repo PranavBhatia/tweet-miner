@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import Model.TweetModel;
+import akka.japi.Predicate;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -22,7 +23,7 @@ public class TwitterService {
 	    return twitterInstance;
 	}
 	
-	public static CompletableFuture<List<TweetModel>> getTweets(String keywords) {
+	public static CompletableFuture<List<TweetModel>> getTweets(String keywords, int limit) {
 	
 		CompletableFuture <List<TweetModel>> futureTweets = new CompletableFuture <> ();
 		
@@ -31,7 +32,7 @@ public class TwitterService {
 		Twitter twitter = getInstance();
 		Query query = new Query(keywords);
 		query.setLang("en");
-		query.setCount(100);
+		query.setCount(limit);
 		QueryResult result;
 		
 		try {
@@ -43,21 +44,8 @@ public class TwitterService {
 										t.getUser().getName(), 
 										t.getUser().getLocation(),
 										Arrays.asList(t.getHashtagEntities())))
-				.limit(10)
 				.forEach(tweetModel -> tweetList.add(tweetModel));
-			
-			/*
-			tweets.forEach(tweet -> { //if(tweet.getLang().equals("en")) {
-					TweetModel tm = new TweetModel();
-					tm.setText(tweet.getText());
-					tm.setAuthor(tweet.getUser().getName());
-					tm.setGeoLocation(tweet.getGeoLocation());
-					tm.setHashtags(Arrays.asList(tweet.getHashtagEntities()));
-					//tm.setSentiment(tweet.get);
-					tweetList.add(tm);
-				//}
-			});
-			*/
+	
 			
 		} catch (TwitterException e) {
 			e.printStackTrace();
@@ -66,4 +54,6 @@ public class TwitterService {
 		futureTweets.complete(tweetList);
 		return futureTweets;
 	}
+	
+	
 }
