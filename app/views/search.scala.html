@@ -8,11 +8,23 @@
 	</head>
 	<body>
 		<ul>
+			<ol>
 			@for(tweet <- tweetList) {
-  				<h5>@tweet.getAuthor()</h5>
-  				<p>@tweet.getText()</p>
-  				<br>
+  				<li>
+  					<p> 
+  						<b>@tweet.getAuthor() (@tweet.getLocation()): </b> 
+  						@tweet.getText()
+
+  						@(hashTagList: List[String])
+
+  						@for() {
+
+  						}
+
+  					</p>
+  				</li>
 			}
+			</ol>
 		</ul>
 	</body>
 </html>

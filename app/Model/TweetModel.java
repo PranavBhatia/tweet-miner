@@ -2,12 +2,24 @@ package Model;
 
 import java.util.List;
 
+import twitter4j.GeoLocation;
+import twitter4j.HashtagEntity;
+import static java.util.stream.Collectors.toList;
+
+
 public class TweetModel {
 	private String text;
 	private String author;
-	private String geolocation;
-	private List<String> hashtags;
+	private List<HashtagEntity> hashtags;
 	private String sentiment;
+	private String location;
+	
+	public TweetModel(String text, String author, String location, List<HashtagEntity> hashTags) {
+		this.text = text;
+		this.author = author;
+		this.location = location;
+		this.hashtags = hashTags;
+	}
 	
 	/**
 	 * @param name the name to set
@@ -33,28 +45,19 @@ public class TweetModel {
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-	/**
-	 * @return the geolocation
-	 */
-	public String getGeolocation() {
-		return geolocation;
-	}
-	/**
-	 * @param geolocation the geolocation to set
-	 */
-	public void setGeolocation(String geolocation) {
-		this.geolocation = geolocation;
-	}
+	
 	/**
 	 * @return the hashtags
 	 */
 	public List<String> getHashtags() {
-		return hashtags;
+		return hashtags.stream()
+			.map(h->"#"+h.getText())
+			.collect(toList());
 	}
 	/**
 	 * @param hashtags the hashtags to set
 	 */
-	public void setHashtags(List<String> hashtags) {
+	public void setHashtags(List<HashtagEntity> hashtags) {
 		this.hashtags = hashtags;
 	}
 	/**
@@ -68,6 +71,18 @@ public class TweetModel {
 	 */
 	public void setSentiment(String sentiment) {
 		this.sentiment = sentiment;
+	}
+	/**
+	 * @return the geoLocation
+	 */
+	public String getLocation() {
+		return location;
+	}
+	/**
+	 * @param geoLocation the geoLocation to set
+	 */
+	public void setLocation(String location) {
+		this.location = location;
 	}
 	
 

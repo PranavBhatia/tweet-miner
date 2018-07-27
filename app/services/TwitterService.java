@@ -1,6 +1,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -29,21 +30,34 @@ public class TwitterService {
 		
 		Twitter twitter = getInstance();
 		Query query = new Query(keywords);
+		query.setLang("en");
+		query.setCount(100);
 		QueryResult result;
 		
 		try {
 			result = twitter.search(query);
 			List<Status> tweets = result.getTweets();
 			
-			tweets.forEach(tweet -> {
-				TweetModel tm = new TweetModel();
-				tm.setText(tweet.getText());
-				tm.setAuthor(tweet.getUser().getName());
-				//tm.setGeolocation(tweet.getGeoLocation().toString());
-				tweetList.add(tm);
-				//tm.setHashtags(tweet.getHashtagEntities());
-				//tm.setSentiment(tweet.get);
+			tweets.stream()
+				.map(t->new TweetModel(t.getText(), 
+										t.getUser().getName(), 
+										t.getUser().getLocation(),
+										Arrays.asList(t.getHashtagEntities())))
+				.limit(10)
+				.forEach(tweetModel -> tweetList.add(tweetModel));
+			
+			/*
+			tweets.forEach(tweet -> { //if(tweet.getLang().equals("en")) {
+					TweetModel tm = new TweetModel();
+					tm.setText(tweet.getText());
+					tm.setAuthor(tweet.getUser().getName());
+					tm.setGeoLocation(tweet.getGeoLocation());
+					tm.setHashtags(Arrays.asList(tweet.getHashtagEntities()));
+					//tm.setSentiment(tweet.get);
+					tweetList.add(tm);
+				//}
 			});
+			*/
 			
 		} catch (TwitterException e) {
 			e.printStackTrace();
