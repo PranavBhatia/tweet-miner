@@ -1,0 +1,17 @@
+@import Model.TweetModel
+
+@(wordList: List[String])
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Tweet Miner</title>
+	</head>
+	<body>
+		<ol>
+			@for(word <- wordList) {
+				<li>@word</li>
+			}
+		</ol>
+	</body>
+</html>

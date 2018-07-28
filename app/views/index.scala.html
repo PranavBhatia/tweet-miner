@@ -1,20 +1,24 @@
-@*
- * This template takes a single argument, a String containing a
- * message to display.
- *@
-@(message: String)
-
-@*
- * Call the `main` template with two arguments. The first
- * argument is a `String` with the title of the page, the second
- * argument is an `Html` object containing the body of the page.
- *@
-@main("Welcome to Play") {
-
-    @*
-     * Get an `Html` object by calling the built-in Play welcome
-     * template and passing a `String` message.
-     *@
-    @welcome(message, style = "java")
-
-}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My TweetMiner</title>
+	<link rel="stylesheet" href="@routes.Assets.at("stylesheets/style.css")">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheets" href="https://fonts.googleapis.com/css?family=Chela+One"s>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>Welcome to TweetMiner</h1>	
+<form id="form">
+	<div id="container">
+		<input id="searchbox" type="text" name="search" placeholder="(enter search items)"/>
+		<button id="goButton"><i class="material-icons w3-xxlarge">search</i></button>
+	</div>
+</form>
+<script>
+$('#form').submit(function(ev) {
+    ev.preventDefault();
+});
+</script>
+</body>
+</html>

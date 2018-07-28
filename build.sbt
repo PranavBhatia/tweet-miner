@@ -13,11 +13,15 @@ libraryDependencies += guice
 // Test Database
 libraryDependencies += "com.h2database" % "h2" % "1.4.197"
 
+
 // Testing libraries for dealing with CompletionStage...
 libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2" % Test
 libraryDependencies += "org.awaitility" % "awaitility" % "2.0.0" % Test
 // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
 libraryDependencies += "org.twitter4j" % "twitter4j-core" % "4.0.4"
+
+// Dependenciees for dealing with Twitter API
+libraryDependencies += "org.twitter4j" % "twitter4j-core" % "4.0.6"
 
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))

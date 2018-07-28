@@ -21,18 +21,9 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
-    public Result index() { return ok(index.render("PB Play framework")); }
-
-   public Result welcome(String name) throws Exception{
-      /* Twitter twitter = TwitterFactory.getSingleton();
-       Query query = new Query("source:twitter4j yusukey");
-       QueryResult result = twitter.search(query);
-       for (Status status : result.getTweets()) {
-           System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
-       }*/
-
-        return ok("PB's welcome page \nWelcome " + name);
-
+    public Result index() {
+        return ok(index.render());
+    }
 
  /*   public CompletionStage<Result> message() {
         return ok("PB's welcome page ");

@@ -1,0 +1,45 @@
+@import Model.TweetModel;
+
+@(tweetList: List[TweetModel])(searchTerms:String)
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Tweet Miner</title>
+		<link rel="stylesheet" href="@routes.Assets.at("stylesheets/style.css")">
+		<link href="https://fonts.googleapis.com/css?family=Chela+One" rel="stylesheet">
+	</head>
+	<body>
+		<h1>Welcome to TweetMiner</h1>	
+		<form>
+			<div id="container">
+				<input id="searchbox" type="text" name="search" placeholder="(enter search items)"/>
+				<button id="goButton"><i class="material-icons w3-xxlarge">search</i></button>
+			</div>
+		</form>
+
+		<!--
+		<h4> Search Terms: <a href = "@routes.SearchController.tweetWords(searchTerms)">@searchTerms </a></h4>
+		<ol>
+			@for(tweet <- tweetList) {
+  				<li>
+  					<p> 
+  						<b>
+  						<a href ="@routes.SearchController.userProfile(tweet.getAuthor())">@tweet.getAuthor()</a>
+  						<a href ="@routes.SearchController.locationTweets(tweet.getLocation())">(@tweet.getLocation()): </a>
+  						</b> 
+  						@tweet.getText()
+  						<br>
+  						@for(hashtag <- tweet.getHashtags()) {
+  							<a href ="@routes.SearchController.hashtags(hashtag)">@hashtag</a>
+  						}
+
+  					</p>
+  					
+
+  				</li>
+			}
+		</ol>
+		-->
+	</body>
+</html>
