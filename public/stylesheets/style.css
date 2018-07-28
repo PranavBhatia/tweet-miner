@@ -1,0 +1,46 @@
+html{
+	background-size: cover;
+	background-image: url(http://localhost:9000/public/images/bg.jpg);
+}
+
+#container{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+h1{
+	font-family: 'Chela One', cursive;
+	color: white;
+	font-size: 60px;
+	text-align: center;
+}
+
+#searchbox{
+	height: 40px;
+	width: 800px;
+	border-radius: 3px;
+	border-color: white;
+	color: white;
+	font-size: 20px;
+	background-color: transparent;
+}
+
+::placeholder{
+	color: white;
+	padding: 8px;
+}
+
+#goButton{
+	width: 50px;
+	margin-left: 30px;
+	background-color: transparent;
+	color: white;
+	border: none;
+}
+
+.material-icons{
+	font-size: 40px !important;
+}
+
+/**/

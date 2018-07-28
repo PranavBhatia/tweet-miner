@@ -32,10 +32,14 @@ public class SearchController extends Controller {
     }
     
     public Result locationTweets(String location) {
-    	return ok(location);
+    	return ok(location); //TwitterService.getLocationTweets
     }
     
     public Result userProfile(String username) {
-    	return ok(username);
+    	return ok(username); //TwitterService.getProfile
+    }
+    
+    public Result hashtags(String hashtag) {
+    	return ok(hashtag); //TwitterService.getHashtagTweets
     }
 }
