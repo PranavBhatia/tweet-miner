@@ -23,4 +23,3 @@ GET	    /userProfile/:searchTerms	controllers.SearchController.userProfile(searc
 GET	    /userProfile/:hashtag	controllers.SearchController.hashtags(hashtag: String)
 
 GET     /public/*file      controllers.Assets.at(path="/public", file)
-

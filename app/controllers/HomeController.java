@@ -2,7 +2,12 @@ package controllers;
 
 import play.mvc.*;
 
+import twitter4j.*;
+import twitter4j.api.SearchResource;
 import views.html.*;
+
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -19,8 +24,8 @@ public class HomeController extends Controller {
     public Result index() {
         return ok(index.render());
     }
-    
-   
-    
 
+ /*   public CompletionStage<Result> message() {
+        return ok("PB's welcome page ");
+    }*/
 }
