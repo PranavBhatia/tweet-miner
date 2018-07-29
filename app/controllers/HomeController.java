@@ -41,6 +41,10 @@ public class HomeController extends Controller {
         return TweetsService.getTweets(keywords).thenApplyAsync(tweets -> ok(tweets));
     }
 
+    public Result getHashtags(Object hashtag) {
+        return ok("Reached : " + hashtag); //TwitterService.getHashtagTweets
+    }
+
  /*   public CompletionStage<Result> message() {
         return ok("PB's welcome page ");
     }*/

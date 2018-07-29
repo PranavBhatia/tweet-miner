@@ -32,7 +32,7 @@
   						@tweet.getText()
   						<br>
   						@for(hashtag <- tweet.getHashtags()) {
-  							<a href ="@routes.SearchController.hashtags(hashtag)">@hashtag</a>
+  							<a href ="@routes.SearchController.getHashtags(hashtag)">@hashtag</a>
   						}
 
   					</p>

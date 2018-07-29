@@ -43,4 +43,22 @@ h1{
 	font-size: 40px !important;
 }
 
+#content{
+    width: 80%;
+    text-align: left;
+    margin: auto;
+    color: white;
+    table-layout: auto;
+}
+
+th {
+    text-align: center;
+    font-weight: bold;
+}
+th, td {
+    padding: 8px;
+}
+
+
+a, a:hover, a:active, a:visited { color: aqua; }
 /**/
