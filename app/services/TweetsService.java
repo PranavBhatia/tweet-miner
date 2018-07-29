@@ -14,7 +14,7 @@ public class TweetsService {
         CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         Query query = new Query(keyword);
-        query.setCount(11);
+        query.setCount(10);
         QueryResult result = twitter.search(query);
         List<Status> tweets = result.getTweets();
         ArrayNode tweetsArrayNode = Json.newArray();

@@ -13,12 +13,20 @@ GET		/search/:keywords			controllers.HomeController.search(keywords: String)
 
 # GET	    /tweetWords/:searchTerms	controllers.SearchController.tweetWords(searchTerms: String)
 
-GET	    /locationTweets/:location	controllers.SearchController.locationTweets(location: String)
+#GET	    /locationTweets/:location	controllers.SearchController.locationTweets(location: String)
 
-GET	    /userProfile/:searchTerms	controllers.SearchController.userProfile(searchTerms: String)
+#GET	    /userProfile/:searchTerms	controllers.SearchController.userProfile(searchTerms: String)
 
-GET	    /userProfile/:hashtag	controllers.SearchController.hashtags(hashtag: String)
+#GET	    /userProfile/:hashtag	controllers.SearchController.hashtags(hashtag: String)
 
-GET     /public/*file      controllers.Assets.at(path="/public", file)
+GET     /public/*file               controllers.Assets.at(path="/public", file)
 
 GET		/getHashtags/:hash			controllers.HomeController.getHashtags(hash: String)
+
+GET		/getLocation/:location		controllers.HomeController.getLocation(location:String)
+
+GET		/getUserName/:username		controllers.HomeController.getUserName(username:String)
+
+GET		/getTweetWords/:query		controllers.HomeController.getTweetWords(query:String)
+
+GET		/getSentiment/:query		controllers.HomeController.getSentiment(query:String)

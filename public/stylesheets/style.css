@@ -55,10 +55,15 @@ th {
     text-align: center;
     font-weight: bold;
 }
+
 th, td {
     padding: 8px;
 }
 
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
 
 a, a:hover, a:active, a:visited { color: aqua; }
 /**/

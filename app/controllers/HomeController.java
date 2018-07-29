@@ -41,10 +41,25 @@ public class HomeController extends Controller {
         return TweetsService.getTweets(keywords).thenApplyAsync(tweets -> ok(tweets));
     }
 
-    public Result getHashtags(Object hashtag) {
+    public Result getHashtags(String hashtag) {
         return ok("Reached : " + hashtag); //TwitterService.getHashtagTweets
+
+    }
+    public Result getLocation(String location) {
+        return ok("Reached : " + location); //TwitterService.getLocation
     }
 
+    public Result getUserName(String username) {
+        return ok("Reached : " + username); //TwitterService.getUserName
+    }
+
+    public Result getTweetWords(String query) {
+        return ok("Reached : " + query); //TwitterService.getUserName
+    }
+
+    public Result getSentiment(String query) {
+        return ok("Reached : " + query); //TwitterService.getUserName
+    }
  /*   public CompletionStage<Result> message() {
         return ok("PB's welcome page ");
     }*/
