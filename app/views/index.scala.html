@@ -7,13 +7,6 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link href="https://fonts.googleapis.com/css?family=Chela+One" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script>
-                (document).ready(function(){
-                    $("#btn1").click(function(){
-                        $("p").append(" <b>Appended text</b>.");
-                    });
-                });
-        </script>
 	</head>
 	<body>
 		<h1>@message</h1>
@@ -32,8 +25,8 @@
 					ev.preventDefault();
 					var input = document.getElementById("searchbox").value;
 					$.get('http://localhost:9000/search/' + $('#searchbox').val(), function (data) {
-						console.log(JSON.stringify(data));
-						//console.log(data[0].tweetsText);
+						//console.log(JSON.stringify(data));
+						console.log(data[0].tweetsText);
 						var number_of_rows = data.length;
 						var table_body = '< id="example"><thead><tr><th>Sr. No.</th><th>Tweet</th><th>User Name</th><th>User Handle Name</th><th>Tweet Location</th><th>Hash Tag</th></tr></thead><tbody>';
 						for(j=0; j<number_of_rows; j++){

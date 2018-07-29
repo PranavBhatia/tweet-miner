@@ -34,11 +34,11 @@ public class HomeController extends Controller {
     }
 
     public CompletionStage<Result> getHashtags(String hashtag) {
-        return TweetsService.getTweets(hashtag, 10).thenApplyAsync(tweets -> ok(tweets));
+        return TweetsService.getLocationTweets(hashtag).thenApplyAsync(tweets -> ok(locationTweets.render(tweets)));
     }
 
     public CompletionStage<Result> getLocation(String location){
-        return TweetsService.getTweets(location, 10).thenApplyAsync(tweets -> ok(locationTweets.render(tweets)));
+        return TweetsService.getLocationTweets(location).thenApplyAsync(tweets -> ok(locationTweets.render(tweets)));
     }
 
     public Result getUserProfile(String username) {
