@@ -52,6 +52,14 @@ public class HomeController extends Controller {
     public Result getUserName(String username) {
         return ok("Reached : " + username); //TwitterService.getUserName
     }
+
+    public Result getTweetWords(String query) {
+        return ok("Reached : " + query); //TwitterService.getUserName
+    }
+
+    public Result getSentiment(String query) {
+        return ok("Reached : " + query); //TwitterService.getUserName
+    }
  /*   public CompletionStage<Result> message() {
         return ok("PB's welcome page ");
     }*/
