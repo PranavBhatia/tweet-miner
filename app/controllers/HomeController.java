@@ -1,7 +1,11 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import play.libs.Json;
 import play.mvc.*;
 
+
+import services.TweetsService;
 import twitter4j.*;
 import twitter4j.api.SearchResource;
 import views.html.*;
@@ -22,7 +26,19 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
     public Result index() {
-        return ok(index.render());
+        return ok(index.render("Welcome to TweetMiner"));
+    }
+
+//    public CompletionStage<Result> search(String keywords){
+//        return TwitterService.getTweets(keywords, 10).thenApplyAsync(tweets -> {
+//            ObjectNode result = Json.newObject();
+//            result.put("data", result);
+//            return ok(result);
+//        });
+//    }
+
+    public CompletionStage<Result> search(String keywords) throws Exception {
+        return TweetsService.getTweets(keywords).thenApplyAsync(tweets -> ok(tweets));
     }
 
  /*   public CompletionStage<Result> message() {

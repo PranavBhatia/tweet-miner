@@ -1,3 +1,4 @@
+@(message: String)
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,16 +9,21 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-	<h1>Welcome to TweetMiner</h1>	
+	<h1>@message</h1>
 <form id="form">
 	<div id="container">
 		<input id="searchbox" type="text" name="search" placeholder="(enter search items)"/>
-		<button id="goButton"><i class="material-icons w3-xxlarge">search</i></button>
+		<button type="submit" id="goButton"><i class="material-icons w3-xxlarge">search</i></button>
 	</div>
+	<div class="content"></div>
 </form>
 <script>
 $('#form').submit(function(ev) {
     ev.preventDefault();
+	var input = document.getElementById("searchbox").value;
+	$.get('http://localhost:9000/search/' + $('#searchbox').val(), function (data) {
+		console.log(data);
+	});
 });
 </script>
 </body>
