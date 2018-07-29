@@ -47,7 +47,7 @@ public class TweetModel {
 	}
 	
 	/**
-	 * @return the hashtags
+	 * @return the getHashtags
 	 */
 	public List<String> getHashtags() {
 		return hashtags.stream()
@@ -56,11 +56,11 @@ public class TweetModel {
 	}
 	
 	public String getOneHashtag() {
-		if (hashtags.size() == 0) return "No hashtags";
+		if (hashtags.size() == 0) return "No getHashtags";
 		return "#" + hashtags.get(0).getText();
 	}
 	/**
-	 * @param hashtags the hashtags to set
+	 * @param hashtags the getHashtags to set
 	 */
 	public void setHashtags(List<HashtagEntity> hashtags) {
 		this.hashtags = hashtags;

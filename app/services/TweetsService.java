@@ -14,13 +14,13 @@ public class TweetsService {
         CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         Query query = new Query(keyword);
-        query.setCount(10);
+        query.setCount(11);
         QueryResult result = twitter.search(query);
         List<Status> tweets = result.getTweets();
         ArrayNode tweetsArrayNode = Json.newArray();
 
         tweets.forEach((tweet) -> {
-            System.out.println("lol");
+            //System.out.println("lol");
             ObjectNode tempTweetsObjectNode = Json.newObject();
             tempTweetsObjectNode.put("tweetsText", tweet.getText());
             tempTweetsObjectNode.put("userName", tweet.getUser().getName());
@@ -31,11 +31,11 @@ public class TweetsService {
             for (HashtagEntity hashtagEntity: tweet.getHashtagEntities()) {
                 s = s.append(hashtagEntity.getText() + ",");
             }
-            tempTweetsObjectNode.put("hashtags", s.toString());
+            tempTweetsObjectNode.put("getHashtags", s.toString());
             tweetsArrayNode.add(tempTweetsObjectNode);
-            System.out.println("lol2");
+            //System.out.println("lol2");
         });
-        System.out.println("lol3");
+       // System.out.println("lol3");
         future.complete(tweetsArrayNode);
         return future;
     }
