@@ -52,12 +52,14 @@
 							table_body +='</td>';
 
 							table_body +='<td>';
+                            table_body+='<a href ="http://localhost:9000/getUserProfile/'+location+'" target="_blank">';
 							table_body +=data[j].userScreenName;
+                            table_body+='</a>';
 							table_body +='</td>';
 
 							table_body +='<td>';
 							var location = data[j].userLocation;
-                            table_body+='<a href ="http://localhost:9000/getLocation/'+location+'" target="_blank">';
+                            table_body+='<a href ="http://localhost:9000/getLocation/'+data[j].userLocation+'" target="_blank">';
 							table_body +=location;
                             table_body+='</a>';
 							table_body +='</td>';
