@@ -22,3 +22,7 @@ GET	    /userProfile/:hashtag	controllers.SearchController.hashtags(hashtag: Str
 GET     /public/*file      controllers.Assets.at(path="/public", file)
 
 GET		/getHashtags/:hash			controllers.HomeController.getHashtags(hash: String)
+
+GET		/getLocation/:location		controllers.HomeController.getLocation(location:String)
+
+GET		/getUserName/:username		controllers.HomeController.getUserName(username:String)

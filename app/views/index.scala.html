@@ -33,7 +33,7 @@
 						console.log(JSON.stringify(data));
 						//console.log(data[0].tweetsText);
 						var number_of_rows = data.length;
-						var table_body = '<table border="1" id="example"><thead><tr><th>Sr. No.</th><th>Tweet</th><th>User Name</th><th>User Handle Name</th><th>Tweet Location</th><th>Hash Tag</th></tr></thead><tbody>';
+						var table_body = '< id="example"><thead><tr><th>Sr. No.</th><th>Tweet</th><th>User Name</th><th>User Handle Name</th><th>Tweet Location</th><th>Hash Tag</th></tr></thead><tbody>';
 						for(j=0; j<number_of_rows; j++){
 							table_body+='<tr>';
 
@@ -55,7 +55,7 @@
 
 							table_body +='<td>';
 							var location = data[j].userLocation;
-                            table_body+='<a href ="@routes.HomeController.getHashtags("")" target="_blank">';
+                            table_body+='<a href ="http://localhost:9000/getLocation/'+location+'" target="_blank">';
 							table_body +=location;
                             table_body+='</a>';
 							table_body +='</td>';
@@ -67,7 +67,7 @@
 								// table_body+=hashtagsString[k];
 								var hash=hashtagsString[k];
 								// here try to pass hash as parameter to getHashtags function
-								table_body+='<a href ="@routes.HomeController.getHashtags("abc")" target="_blank">';
+								table_body+='<a href ="http://localhost:9000/getHashtags/'+hash+'" target="_blank">';
 								table_body+=hash;
 								table_body+='</a>';
 								table_body+=" ";
