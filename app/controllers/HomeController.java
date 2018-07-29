@@ -29,24 +29,16 @@ public class HomeController extends Controller {
         return ok(index.render("Welcome to TweetMiner"));
     }
 
-//    public CompletionStage<Result> search(String keywords){
-//        return TwitterService.getTweets(keywords, 10).thenApplyAsync(tweets -> {
-//            ObjectNode result = Json.newObject();
-//            result.put("data", result);
-//            return ok(result);
-//        });
-//    }
-
     public CompletionStage<Result> search(String keywords) throws Exception {
-        return TweetsService.getTweets(keywords).thenApplyAsync(tweets -> ok(tweets));
+        return TweetsService.getTweets(keywords, 10).thenApplyAsync(tweets -> ok(tweets));
     }
 
-    public Result getHashtags(String hashtag) {
-        return ok("Reached : " + hashtag); //TwitterService.getHashtagTweets
-
+    public CompletionStage<Result> getHashtags(String hashtag) throws Exception {
+        return TweetsService.getTweets(hashtag, 10).thenApplyAsync(tweets -> ok(tweets));
     }
-    public Result getLocation(String location) {
-        return ok("Reached : " + location); //TwitterService.getLocation
+
+    public CompletionStage<Result> getLocation(String location) throws Exception{
+        return TweetsService.getTweets(location, 10).thenApplyAsync(tweets -> ok(tweets));
     }
 
     public Result getUserName(String username) {
@@ -60,7 +52,4 @@ public class HomeController extends Controller {
     public Result getSentiment(String query) {
         return ok("Reached : " + query); //TwitterService.getUserName
     }
- /*   public CompletionStage<Result> message() {
-        return ok("PB's welcome page ");
-    }*/
 }
