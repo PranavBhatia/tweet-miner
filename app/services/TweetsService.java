@@ -21,9 +21,7 @@ public class TweetsService {
         QueryResult result = null;
         try {
             result = twitter.search(query);
-        }catch (TwitterException e){
-            //System.out.println("*************************************");
-        }
+        }catch (TwitterException e){ }
         List<Status> tweets = result.getTweets();
         ArrayNode tweetsArrayNode = Json.newArray();
 
@@ -44,7 +42,23 @@ public class TweetsService {
             //System.out.println("lol2");
         });
        // System.out.println("lol3");
+        System.out.println("TweetsText:"+tweetsArrayNode.get(0).get("tweetsText").asText());
+
         future.complete(tweetsArrayNode);
+        return future;
+    }
+
+    public static CompletableFuture<List<Status>> getLocationTweets(String location){
+        CompletableFuture<List<Status>> future = new CompletableFuture<>();
+        Twitter twitter = TwitterObject.getInstance();
+        Query query = new Query(location);
+        query.setCount(10);
+        QueryResult result = null;
+        try {
+            result = twitter.search(query);
+        }catch (TwitterException e){ }
+        List<Status> tweets = result.getTweets();
+        future.complete(tweets);
         return future;
     }
 

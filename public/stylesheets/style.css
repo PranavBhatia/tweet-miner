@@ -57,11 +57,11 @@ h1{
 }
 
 th {
-    text-align: center;
     font-weight: bold;
 }
 
 th, td {
+	text-align: center;
     padding: 8px;
 }
 
