@@ -21,11 +21,11 @@ GET		/search/:keywords			controllers.HomeController.search(keywords: String)
 
 GET     /public/*file               controllers.Assets.at(path="/public", file)
 
-GET		/getHashtags/:hash			controllers.HomeController.getHashtags(hash: String)
+GET		/getHashtags/:hashtag		controllers.HomeController.getHashtags(hashtag: String)
 
 GET		/getLocation/:location		controllers.HomeController.getLocation(location:String)
 
-GET		/getUserName/:username		controllers.HomeController.getUserName(username:String)
+GET		/getUserProfile/:username		controllers.HomeController.getUserProfile(username:String)
 
 GET		/getTweetWords/:query		controllers.HomeController.getTweetWords(query:String)
 

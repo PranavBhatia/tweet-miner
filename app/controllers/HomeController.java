@@ -29,19 +29,20 @@ public class HomeController extends Controller {
         return ok(index.render("Welcome to TweetMiner"));
     }
 
-    public CompletionStage<Result> search(String keywords) throws Exception {
+    public CompletionStage<Result> search(String keywords){
         return TweetsService.getTweets(keywords, 10).thenApplyAsync(tweets -> ok(tweets));
     }
 
-    public CompletionStage<Result> getHashtags(String hashtag) throws Exception {
+    public CompletionStage<Result> getHashtags(String hashtag) {
         return TweetsService.getTweets(hashtag, 10).thenApplyAsync(tweets -> ok(tweets));
     }
 
-    public CompletionStage<Result> getLocation(String location) throws Exception{
-        return TweetsService.getTweets(location, 10).thenApplyAsync(tweets -> ok(tweets));
+    public CompletionStage<Result> getLocation(String location){
+        return TweetsService.getTweets(location, 10).thenApplyAsync(tweets -> ok(locationTweets.render(tweets)));
     }
 
-    public Result getUserName(String username) {
+    public Result getUserProfile(String username) {
+        TweetsService.getUser(username);
         return ok("Reached : " + username); //TwitterService.getUserName
     }
 

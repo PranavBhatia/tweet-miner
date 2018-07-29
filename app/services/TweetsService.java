@@ -5,17 +5,25 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 import twitter4j.*;
 
+import java.io.Console;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class TweetsService {
-    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit) throws Exception {
+
+    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit){
         CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         Query query = new Query(keyword);
         query.setCount(limit);
-        QueryResult result = twitter.search(query);
+        QueryResult result = null;
+        try {
+            result = twitter.search(query);
+        }catch (TwitterException e){
+            //System.out.println("*************************************");
+        }
         List<Status> tweets = result.getTweets();
         ArrayNode tweetsArrayNode = Json.newArray();
 
@@ -39,11 +47,13 @@ public class TweetsService {
         future.complete(tweetsArrayNode);
         return future;
     }
+
+    public static CompletableFuture<ArrayNode> getUser(String username){
+        CompletableFuture<ArrayNode> future = new CompletableFuture<>();
+        Twitter twitter = TwitterObject.getInstance();
+        try {
+            System.out.println(twitter.showUser(username));
+        }catch (TwitterException e) {}
+        return future;
+    }
 }
-
-/*
-*
-
-
-
-        future.complete(tweetJSON);*/
