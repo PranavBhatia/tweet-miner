@@ -15,14 +15,45 @@
 		<input id="searchbox" type="text" name="search" placeholder="(enter search items)"/>
 		<button type="submit" id="goButton"><i class="material-icons w3-xxlarge">search</i></button>
 	</div>
-	<div class="content"></div>
+	<div id="content"></div>
 </form>
 <script>
 $('#form').submit(function(ev) {
     ev.preventDefault();
 	var input = document.getElementById("searchbox").value;
 	$.get('http://localhost:9000/search/' + $('#searchbox').val(), function (data) {
-		console.log(data);
+		console.log(JSON.stringify(data));
+		//console.log(data[0].tweetsText);
+		var number_of_rows = data.length;
+		var table_body = '<table border="1" id="example"><thead><tr><th>Tweet</th><th>User Name</th><th>User Handle Name</th><th>Tweet Location</th><th>Hash Tag</th></tr></thead><tbody>';
+		for(j=0; j<number_of_rows; j++){
+			table_body+='<tr>';
+			table_body +='<td>';
+			table_body +=data[j].tweetsText;
+			table_body +='</td>';
+
+			table_body +='<td>';
+			table_body +=data[j].userName;
+			table_body +='</td>';
+
+			table_body +='<td>';
+			table_body +=data[j].userScreenName;
+			table_body +='</td>';
+
+			table_body +='<td>';
+			table_body +=data[j].userLocation;
+			table_body +='</td>';
+
+			var hashtagsString= data[j].hashtags.split(",");
+			table_body +='<td>';
+			for(var k=0; k<hashtagsString.length; k++){
+				table_body +=data[j].hashtags[k];
+			}
+			table_body +='</td>';
+			'</tr>';
+		}
+		table_body+='</tbody></table>';
+		$('#content').html(table_body);
 	});
 });
 </script>
