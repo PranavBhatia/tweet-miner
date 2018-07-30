@@ -9,7 +9,7 @@ import javax.swing.text.html.HTML;
 import Model.TweetModel;
 import Model.TweetWordsModel;
 import play.mvc.*;
-
+import services.TweetsService;
 import views.html.*;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
@@ -19,12 +19,12 @@ import twitter4j.conf.ConfigurationBuilder;
  * to the application's home page.
  */
 public class SearchController extends Controller {
-    
-//    public CompletionStage<Result> tweetWords(String searchWords) {
-//        return TwitterService.getTweets(searchWords, 100).thenApply(
-//        					tweets->TweetWordsModel.wordLevelStatistic(tweets))
-//        					.thenApply(words -> ok(tweetWords.render(words)));
-//    }
+    /*
+    public CompletionStage<Result> tweetWords(String searchWords) {
+        return TweetsService.getTweets(searchWords, 100).thenApply(
+        					tweets->TweetWordsModel.wordLevelStatistic(tweets))
+        					.thenApply(words -> ok(tweetWords.render(words)));
+    }*/
     
     public Result locationTweets(String location) {
     	return ok(location); //TwitterService.getLocationTweets

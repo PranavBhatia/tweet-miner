@@ -1,6 +1,10 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import Model.SentimentCompute;
+import Model.TweetWordsModel;
 import play.libs.Json;
 import play.mvc.*;
 
@@ -10,6 +14,7 @@ import twitter4j.*;
 import twitter4j.api.SearchResource;
 import views.html.*;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +43,8 @@ public class HomeController extends Controller {
 //    }
 
     public CompletionStage<Result> search(String keywords) throws Exception {
-        return TweetsService.getTweets(keywords).thenApplyAsync(tweets -> ok(tweets));
+    	SentimentCompute.smileyLevelStatistic(TweetsService.getTweets(keywords,10).get());
+        return TweetsService.getTweets(keywords, 10).thenApplyAsync(tweets -> ok(tweets));
     }
 
     public Result getHashtags(String hashtag) {
@@ -53,8 +59,10 @@ public class HomeController extends Controller {
         return ok("Reached : " + username); //TwitterService.getUserName
     }
 
-    public Result getTweetWords(String query) {
-        return ok("Reached : " + query); //TwitterService.getUserName
+    public CompletableFuture<Result> getTweetWords(String query) throws Exception {
+    		return TweetsService.getTweets(query, 100)
+    		.thenApply(tweets->ok(tweetWords.render(TweetWordsModel.tweetWords(tweets), query)));
+    	
     }
 
     public Result getSentiment(String query) {

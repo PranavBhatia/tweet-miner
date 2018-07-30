@@ -10,11 +10,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class TweetsService {
-    public static CompletableFuture<ArrayNode> getTweets(String keyword) throws Exception {
+    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit) throws Exception {
         CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         Query query = new Query(keyword);
-        query.setCount(10);
+        query.setCount(limit);
         QueryResult result = twitter.search(query);
         List<Status> tweets = result.getTweets();
         ArrayNode tweetsArrayNode = Json.newArray();

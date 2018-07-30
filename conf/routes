@@ -27,6 +27,6 @@ GET		/getLocation/:location		controllers.HomeController.getLocation(location:Str
 
 GET		/getUserName/:username		controllers.HomeController.getUserName(username:String)
 
-GET		/getTweetWords/:query		controllers.HomeController.getTweetWords(query:String)
+GET		/tweetWords/:query			controllers.HomeController.getTweetWords(query:String)
 
 GET		/getSentiment/:query		controllers.HomeController.getSentiment(query:String)
