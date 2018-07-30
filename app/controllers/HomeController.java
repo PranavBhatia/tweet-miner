@@ -1,20 +1,15 @@
 package controllers;
 
 import Model.TweetWordsModel;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import play.libs.Json;
 import play.mvc.*;
 
 
 import services.TweetsService;
-import services.TwitterObject;
 import twitter4j.*;
-import twitter4j.api.SearchResource;
 import views.html.*;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -37,11 +32,11 @@ public class HomeController extends Controller {
     }
 
     public CompletionStage<Result> getHashtags(String hashtag) {
-        return TweetsService.getLocationTweets(hashtag).thenApplyAsync(tweets -> ok(locationTweets.render(tweets)));
+        return TweetsService.getHashtagTweets(hashtag).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Hashtag Tweets")));
     }
 
-    public CompletionStage<Result> getLocation(String location){
-        return TweetsService.getLocationTweets(location).thenApplyAsync(tweets -> ok(locationTweets.render(tweets)));
+    public CompletionStage<Result> getLocation(String latitude, String longitude){
+        return TweetsService.getLocationTweets(latitude, longitude).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Location Tweets")));
     }
 
     public CompletionStage<Result> getUserProfile(String username) throws TwitterException{

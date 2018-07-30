@@ -15,7 +15,7 @@ GET     /public/*file               controllers.Assets.at(path="/public", file)
 
 GET		/getHashtags/:hashtag		controllers.HomeController.getHashtags(hashtag: String)
 
-GET		/getLocation/:location		controllers.HomeController.getLocation(location:String)
+GET		/getLocation/:latitude/:longitude		controllers.HomeController.getLocation(latitude:String, longitude:String)
 
 GET		/getUserProfile/:username		controllers.HomeController.getUserProfile(username:String)
 
