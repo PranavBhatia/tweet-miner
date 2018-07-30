@@ -13,11 +13,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ExecutionException;
 
 public class TweetsService {
 
 
-    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit){
+    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit) throws InterruptedException,ExecutionException{
         CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         Query query = new Query(keyword);
@@ -31,7 +32,7 @@ public class TweetsService {
         }
 
         List<Status> tweets = result.getTweets();
-        String sentiments=SentimentCompute.smileyLevelStatistic(tweets);
+        String sentiments = SentimentCompute.smileyLevelStatistic(tweets);
         ArrayNode tweetsArrayNode = Json.newArray();
 
         tweets.forEach((tweet) -> {

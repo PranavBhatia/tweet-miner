@@ -36,7 +36,7 @@ public class HomeController extends Controller {
     }
 
 
-    public CompletionStage<Result> search(String keywords){
+    public CompletionStage<Result> search(String keywords) throws Exception{
         return TweetsService.getTweets(keywords, 10).thenApplyAsync(tweets -> ok(tweets));
     }
 
