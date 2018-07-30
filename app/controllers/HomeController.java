@@ -5,9 +5,12 @@ import play.mvc.*;
 
 
 import services.TweetsService;
+import services.TwitterObject;
 import twitter4j.*;
 import views.html.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
@@ -40,7 +43,18 @@ public class HomeController extends Controller {
     }
 
     public CompletionStage<Result> getUserProfile(String username) throws TwitterException{
-        return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser)));
+        return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, getUserTweets(username))));
+    }
+
+    public List<Status> getUserTweets(String username){
+        Twitter twitter = TwitterObject.getInstance();
+        ArrayList<Status> userTweets = new ArrayList<>();
+        try {
+            userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));
+        }catch (TwitterException e){
+            e.printStackTrace();
+        }
+        return userTweets;
     }
 
     public CompletableFuture<Result> getTweetWords(String query) throws Exception {
