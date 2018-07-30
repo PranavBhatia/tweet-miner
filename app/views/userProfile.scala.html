@@ -1,6 +1,7 @@
 @import twitter4j.User
+@import twitter4j.Status
 @import services.TwitterObject
-@(user: User)
+@(user: User, tweets: List[Status])
 <html>
     <head>
         <title>My TweetMiner</title>
@@ -59,11 +60,12 @@
                     <tr>
                         <th><font color="white" size="5 px"><u>Tweets</u></font></th>
                     </tr>
-                    <tr>
-                        <td>
-                            <font color="white" size="4 px">@user.getStatus().getText()</font>
-                        </td>
-                    </tr>
+                            @for(index <- 1 until tweets.size+1) {
+                                <tr>
+                                    <td><font color="white" size="4 px">@index. </font></td>
+                                    <td><font color="white" size="4 px">@tweets(index-1).getText()</font></td>
+                                </tr>
+                            }
                 </table>
             </div>
         </center>
