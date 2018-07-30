@@ -22,3 +22,5 @@ libraryDependencies += "org.twitter4j" % "twitter4j-core" % "4.0.4"
 
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
+
+

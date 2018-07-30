@@ -2,6 +2,8 @@ package services;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import Model.SentimentCompute;
 import play.libs.Json;
 import twitter4j.*;
 
@@ -10,13 +12,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class TweetsService {
-    public static CompletableFuture<ArrayNode> getTweets(String keyword) throws Exception {
+    public static CompletableFuture<ArrayNode> getTweets(String keyword,int limit) throws Exception {
         CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         Query query = new Query(keyword);
-        query.setCount(10);
+        query.setCount(limit);
+        
+        
         QueryResult result = twitter.search(query);
         List<Status> tweets = result.getTweets();
+        String sentiments=SentimentCompute.smileyLevelStatistic(tweets);
         ArrayNode tweetsArrayNode = Json.newArray();
 
         tweets.forEach((tweet) -> {
@@ -26,6 +31,9 @@ public class TweetsService {
             tempTweetsObjectNode.put("userName", tweet.getUser().getName());
             tempTweetsObjectNode.put("userScreenName", tweet.getUser().getScreenName());
             tempTweetsObjectNode.put("userLocation", tweet.getUser().getLocation());
+            //Simran change->
+            tempTweetsObjectNode.put("sentiment", sentiments);
+            //-------------
             ArrayNode tempHashtagArrayNode = Json.newArray();
             StringBuilder s = new StringBuilder();
             for (HashtagEntity hashtagEntity: tweet.getHashtagEntities()) {

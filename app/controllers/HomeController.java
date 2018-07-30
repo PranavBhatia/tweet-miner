@@ -1,6 +1,8 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import Model.SentimentCompute;
 import play.libs.Json;
 import play.mvc.*;
 
@@ -10,6 +12,7 @@ import twitter4j.*;
 import twitter4j.api.SearchResource;
 import views.html.*;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
@@ -29,16 +32,10 @@ public class HomeController extends Controller {
         return ok(index.render("Welcome to TweetMiner"));
     }
 
-//    public CompletionStage<Result> search(String keywords){
-//        return TwitterService.getTweets(keywords, 10).thenApplyAsync(tweets -> {
-//            ObjectNode result = Json.newObject();
-//            result.put("data", result);
-//            return ok(result);
-//        });
-//    }
 
     public CompletionStage<Result> search(String keywords) throws Exception {
-        return TweetsService.getTweets(keywords).thenApplyAsync(tweets -> ok(tweets));
+
+        return TweetsService.getTweets(keywords,100).thenApplyAsync(tweets -> ok(tweets));
     }
 
     public Result getHashtags(String hashtag) {
@@ -57,10 +54,11 @@ public class HomeController extends Controller {
         return ok("Reached : " + query); //TwitterService.getUserName
     }
 
-    public Result getSentiment(String query) {
-        return ok("Reached : " + query); //TwitterService.getUserName
+    public CompletionStage<Result> getSentiment(String keywords) throws Exception {
+    	
+    	//SentimentCompute.smileyLevelStatistic(TweetsService.getTweets(keywords,100).get());
+    
+    			
+        return TweetsService.getTweets(keywords,100).thenApplyAsync(tweets -> ok(tweets)); //TwitterService.getUserName
     }
- /*   public CompletionStage<Result> message() {
-        return ok("PB's welcome page ");
-    }*/
 }
