@@ -9,6 +9,10 @@ html{
 	justify-content: center;
 }
 
+p{
+    color: white;
+}
+
 h1{
 	font-family: 'Chela One', cursive;
 	color: white;
@@ -49,14 +53,15 @@ h1{
     margin: auto;
     color: white;
     table-layout: auto;
+    border: 1px solid white;
 }
 
 th {
-    text-align: center;
     font-weight: bold;
 }
 
 th, td {
+	text-align: center;
     padding: 8px;
 }
 

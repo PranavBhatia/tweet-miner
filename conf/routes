@@ -11,22 +11,14 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 GET		/search/:keywords			controllers.HomeController.search(keywords: String)
 
-# GET	    /tweetWords/:searchTerms	controllers.SearchController.tweetWords(searchTerms: String)
-
-#GET	    /locationTweets/:location	controllers.SearchController.locationTweets(location: String)
-
-#GET	    /userProfile/:searchTerms	controllers.SearchController.userProfile(searchTerms: String)
-
-#GET	    /userProfile/:hashtag	controllers.SearchController.hashtags(hashtag: String)
-
 GET     /public/*file               controllers.Assets.at(path="/public", file)
 
-GET		/getHashtags/:hash			controllers.HomeController.getHashtags(hash: String)
+GET		/getHashtags/:hashtag		controllers.HomeController.getHashtags(hashtag: String)
 
-GET		/getLocation/:location		controllers.HomeController.getLocation(location:String)
+GET		/getLocation/:latitude/:longitude		controllers.HomeController.getLocation(latitude:String, longitude:String)
 
-GET		/getUserName/:username		controllers.HomeController.getUserName(username:String)
+GET		/getUserProfile/:username		controllers.HomeController.getUserProfile(username:String)
 
-GET		/getTweetWords/:query		controllers.HomeController.getTweetWords(query:String)
+GET		/tweetWords/:query			controllers.HomeController.getTweetWords(query:String)
 
 GET		/getSentiment/:query		controllers.HomeController.getSentiment(query:String)

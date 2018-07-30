@@ -4,17 +4,20 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import Model.SentimentCompute;
 import play.libs.Json;
+import Model.TweetWordsModel;
 import play.mvc.*;
 
 
 import services.TweetsService;
+import services.TwitterObject;
 import twitter4j.*;
-import twitter4j.api.SearchResource;
 import views.html.*;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.TimeUnit;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -33,25 +36,36 @@ public class HomeController extends Controller {
     }
 
 
-    public CompletionStage<Result> search(String keywords) throws Exception {
-
-        return TweetsService.getTweets(keywords,100).thenApplyAsync(tweets -> ok(tweets));
+    public CompletionStage<Result> search(String keywords){
+        return TweetsService.getTweets(keywords, 10).thenApplyAsync(tweets -> ok(tweets));
     }
 
-    public Result getHashtags(String hashtag) {
-        return ok("Reached : " + hashtag); //TwitterService.getHashtagTweets
-
-    }
-    public Result getLocation(String location) {
-        return ok("Reached : " + location); //TwitterService.getLocation
+    public CompletionStage<Result> getHashtags(String hashtag) {
+        return TweetsService.getHashtagTweets(hashtag).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Hashtag Tweets")));
     }
 
-    public Result getUserName(String username) {
-        return ok("Reached : " + username); //TwitterService.getUserName
+    public CompletionStage<Result> getLocation(String latitude, String longitude){
+        return TweetsService.getLocationTweets(latitude, longitude).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Location Tweets")));
     }
 
-    public Result getTweetWords(String query) {
-        return ok("Reached : " + query); //TwitterService.getUserName
+    public CompletionStage<Result> getUserProfile(String username) throws TwitterException{
+        return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, getUserTweets(username))));
+    }
+
+    public List<Status> getUserTweets(String username){
+        Twitter twitter = TwitterObject.getInstance();
+        ArrayList<Status> userTweets = new ArrayList<>();
+        try {
+            userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));
+        }catch (TwitterException e){
+            e.printStackTrace();
+        }
+        return userTweets;
+    }
+
+    public CompletableFuture<Result> getTweetWords(String query) throws Exception {
+        return TweetsService.getTweets(query, 100)
+                .thenApply(tweets->ok(tweetWords.render(TweetWordsModel.tweetWords(tweets), query)));
     }
 
     public CompletionStage<Result> getSentiment(String keywords) throws Exception {
