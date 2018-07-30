@@ -6,6 +6,7 @@ import play.mvc.*;
 
 
 import services.TweetsService;
+import services.TwitterObject;
 import twitter4j.*;
 import twitter4j.api.SearchResource;
 import views.html.*;
@@ -41,9 +42,8 @@ public class HomeController extends Controller {
         return TweetsService.getLocationTweets(location).thenApplyAsync(tweets -> ok(locationTweets.render(tweets)));
     }
 
-    public Result getUserProfile(String username) {
-        TweetsService.getUser(username);
-        return ok("Reached : " + username); //TwitterService.getUserName
+    public CompletionStage<Result> getUserProfile(String username) throws TwitterException{
+        return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser)));
     }
 
     public Result getTweetWords(String query) {

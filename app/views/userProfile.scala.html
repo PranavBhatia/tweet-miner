@@ -1,0 +1,71 @@
+@import twitter4j.User
+@import services.TwitterObject
+@(user: User)
+<html>
+    <head>
+        <title>My TweetMiner</title>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/style.css")">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link href="https://fonts.googleapis.com/css?family=Chela+One" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    </head>
+    <body>
+        <h1>User Profile : @user.getName</h1>
+        <center>
+            <div>
+                <table>
+                    <tr id="content">
+                        <td>
+                            <img src="@user.getBiggerProfileImageURLHttps" height="150 px" width="150 px">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table style="border: 0; border-collapse: collapse">
+                    <tr>
+                        <th> <font color="white" size="5 px">Location:</font></th>
+                        <td>
+                            <font color="white" size="5 px">@user.getLocation()</font>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table style="border: 0; border-collapse: collapse">
+                    <tr>
+                        <th> <font color="white" size="5 px">Friends Count:</font></th>
+                        <td>
+                            <font color="white" size="5 px">@user.getFriendsCount()</font>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table style="border: 0; border-collapse: collapse">
+                    <tr>
+                        <th><font color="white" size="5 px"><u>Description</u></font></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <font color="white" size="4 px">@user.getDescription()</font>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <table style="border: 0; border-collapse: collapse">
+                    <tr>
+                        <th><font color="white" size="5 px"><u>Tweets</u></font></th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <font color="white" size="4 px">@user.getStatus().getText()</font>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </center>
+    </body>
+</html>

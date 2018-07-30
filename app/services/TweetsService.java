@@ -62,12 +62,15 @@ public class TweetsService {
         return future;
     }
 
-    public static CompletableFuture<ArrayNode> getUser(String username){
-        CompletableFuture<ArrayNode> future = new CompletableFuture<>();
+    public static CompletableFuture<User> getUser(String username){
+        CompletableFuture<User> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
+        User user=null;
         try {
-            System.out.println(twitter.showUser(username));
+            user = (twitter.showUser(username));
         }catch (TwitterException e) {}
+        future.complete(user);
+        System.out.println("User = " + user);
         return future;
     }
 }
