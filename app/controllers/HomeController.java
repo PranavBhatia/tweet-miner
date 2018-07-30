@@ -1,5 +1,9 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import Model.SentimentCompute;
+import play.libs.Json;
 import Model.TweetWordsModel;
 import play.mvc.*;
 
@@ -12,6 +16,7 @@ import views.html.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -29,6 +34,7 @@ public class HomeController extends Controller {
     public Result index() {
         return ok(index.render("Welcome to TweetMiner"));
     }
+
 
     public CompletionStage<Result> search(String keywords){
         return TweetsService.getTweets(keywords, 10).thenApplyAsync(tweets -> ok(tweets));
@@ -62,7 +68,11 @@ public class HomeController extends Controller {
                 .thenApply(tweets->ok(tweetWords.render(TweetWordsModel.tweetWords(tweets), query)));
     }
 
-    public Result getSentiment(String query) {
-        return ok("Reached : " + query); //TwitterService.getUserName
+    public CompletionStage<Result> getSentiment(String keywords) throws Exception {
+    	
+    	//SentimentCompute.smileyLevelStatistic(TweetsService.getTweets(keywords,100).get());
+    
+    			
+        return TweetsService.getTweets(keywords,100).thenApplyAsync(tweets -> ok(tweets)); //TwitterService.getUserName
     }
 }

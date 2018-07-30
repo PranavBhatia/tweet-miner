@@ -2,6 +2,8 @@ package services;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import Model.SentimentCompute;
 import play.libs.Json;
 import twitter4j.*;
 
@@ -14,18 +16,22 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 public class TweetsService {
 
+
     public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit){
         CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         Query query = new Query(keyword);
         query.setCount(limit);
+
         QueryResult result = null;
         try {
             result = twitter.search(query);
         }catch (TwitterException e){
             e.printStackTrace();
         }
+
         List<Status> tweets = result.getTweets();
+        String sentiments=SentimentCompute.smileyLevelStatistic(tweets);
         ArrayNode tweetsArrayNode = Json.newArray();
 
         tweets.forEach((tweet) -> {
@@ -34,6 +40,8 @@ public class TweetsService {
             tempTweetsObjectNode.put("userName", tweet.getUser().getName());
             tempTweetsObjectNode.put("userScreenName", tweet.getUser().getScreenName());
             tempTweetsObjectNode.put("userLocation", tweet.getUser().getLocation());
+            tempTweetsObjectNode.put("sentiment", sentiments);
+
             if(tweet.getGeoLocation()!=null) {
                 tempTweetsObjectNode.put("geolocationLatitude", tweet.getGeoLocation().getLatitude());
                 tempTweetsObjectNode.put("geolocationLongitude", tweet.getGeoLocation().getLongitude());

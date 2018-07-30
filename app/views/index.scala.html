@@ -48,8 +48,6 @@
 					ev.preventDefault();
 					var input = document.getElementById("searchbox").value;
 					$.get('http://localhost:9000/search/' + $('#searchbox').val(), function (data) {
-						var searchKeyWord=$('#searchbox').val();
-						console.log(searchKeyWord);
 						//console.log(data[0].tweetsText);
 						var number_of_rows = data.length;
 						// var table_body = '< id="example"><thead><tr><th>Sr. No.</th><th>Tweet</th><th>User Name</th><th>User Handle Name</th><th>Tweet Location</th><th>Hash Tag</th></tr></thead><tbody>';
@@ -58,10 +56,11 @@
 						table_row+='<td></td>';
 						table_row+='<td>';
 						table_row+='<center><b><font color="#7cfc00">Search Keyword = ';
-						table_row+= searchKeyWord;
+
+						table_row+= '<center><a href ="http://localhost:9000/tweetWords/'+searchKeyWord+'" target="_blank">'+ searchKeyWord+ '</a></center>';
 						table_row+='</a></center></b></font>';
-                        table_row+='<center><a href ="http://localhost:9000/tweetWords/'+input+'" target="_blank">Get Tweet Words</a></center>';
-                        table_row+='<center><a href ="http://localhost:9000/getSentiment/'+input+'" target="_blank">Get Sentiment</a></center>';
+                        <!--table_row+='<center><a href ="http://localhost:9000/tweetWords/'+searchKeyWord+'" target="_blank">Get Tweet Words</a></center>';-->
+                        table_row+='<center>Sentiment '+data[0].sentiment+'</center>';
 						table_row+='</td>';
 						table_row+='</tr>';
 						var rowCount;
@@ -69,6 +68,7 @@
 							rowCount = $('table#tweetTable tr:last').index();
 						else
 							rowCount = $('table#tweetTable tr:last').index()+1;
+
 						for(j=0; j<number_of_rows; j++){
 							var location = data[j].userLocation;
 							table_row+='<tr>';
@@ -87,7 +87,9 @@
 							table_row+='</a>';
 							table_row+='</td>';
 							table_row+='<td>';
+
 							table_row+='<a href ="http://localhost:9000/getLocation/'+data[j].geolocationLatitude+'/ '+ data[j].geolocationLongitude+'" target="_blank">';
+
 							table_row+=location;
 							table_row+='</a>';
 							table_row+='</td>';
