@@ -21,7 +21,9 @@ public class TweetsService {
         QueryResult result = null;
         try {
             result = twitter.search(query);
-        }catch (TwitterException e){ }
+        }catch (TwitterException e){
+            e.printStackTrace();
+        }
         List<Status> tweets = result.getTweets();
         ArrayNode tweetsArrayNode = Json.newArray();
 
@@ -53,7 +55,9 @@ public class TweetsService {
         QueryResult result = null;
         try {
             result = twitter.search(query);
-        }catch (TwitterException e){ }
+        }catch (TwitterException e){
+            e.printStackTrace();
+        }
         List<Status> tweets = result.getTweets();
         future.complete(tweets);
         return future;
@@ -65,7 +69,9 @@ public class TweetsService {
         User user=null;
         try {
             user = (twitter.showUser(username));
-        }catch (TwitterException e) {}
+        }catch (TwitterException e) {
+            e.printStackTrace();
+        }
         future.complete(user);
         System.out.println("User = " + user);
         return future;
