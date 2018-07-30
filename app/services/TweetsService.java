@@ -26,7 +26,6 @@ public class TweetsService {
         ArrayNode tweetsArrayNode = Json.newArray();
 
         tweets.forEach((tweet) -> {
-            //System.out.println("lol");
             ObjectNode tempTweetsObjectNode = Json.newObject();
             tempTweetsObjectNode.put("tweetsText", tweet.getText());
             tempTweetsObjectNode.put("userName", tweet.getUser().getName());
@@ -39,9 +38,7 @@ public class TweetsService {
             }
             tempTweetsObjectNode.put("getHashtags", s.toString());
             tweetsArrayNode.add(tempTweetsObjectNode);
-            //System.out.println("lol2");
         });
-       // System.out.println("lol3");
         System.out.println("TweetsText:"+tweetsArrayNode.get(0).get("tweetsText").asText());
 
         future.complete(tweetsArrayNode);

@@ -1,5 +1,6 @@
 package controllers;
 
+import Model.TweetWordsModel;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 import play.mvc.*;
@@ -11,6 +12,7 @@ import twitter4j.*;
 import twitter4j.api.SearchResource;
 import views.html.*;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.TimeUnit;
 
@@ -46,8 +48,9 @@ public class HomeController extends Controller {
         return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser)));
     }
 
-    public Result getTweetWords(String query) {
-        return ok("Reached : " + query); //TwitterService.getUserName
+    public CompletableFuture<Result> getTweetWords(String query) throws Exception {
+        return TweetsService.getTweets(query, 100)
+                .thenApply(tweets->ok(tweetWords.render(TweetWordsModel.tweetWords(tweets), query)));
     }
 
     public Result getSentiment(String query) {
