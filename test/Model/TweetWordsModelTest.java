@@ -16,20 +16,37 @@ import java.util.Map;
 import static junit.framework.TestCase.assertEquals;
 
 import static org.junit.Assert.*;
-
+/**
+ * @author pranav
+ * This class test the various scenarios of TweetWords Model Class
+ * @throws Exception
+ */
 public class TweetWordsModelTest {
-
+    /**
+     * @author pranav
+     * Creates the environment for testing the TweetWords Model Class
+     * by setting the testCase variable of TwitterObject as true
+     * @throws Exception
+     */
     @BeforeClass
     public static void setUp() throws Exception {
         TwitterObject.testCase = true;
 
     }
-
+    /**
+     * @author pranav
+     *  Sets the testcase variable as false
+     * @throws Exception
+     */
     @AfterClass
     public static void tearDown() throws Exception {
         TwitterObject.testCase = false;
     }
 
+    /**
+     * @author pranav
+     * Tests that the method returns the word level statistics
+     */
     @Test
     public void tweetWords() {
 
@@ -57,6 +74,10 @@ public class TweetWordsModelTest {
         assertEquals(4, actualMap.size());
     }
 
+    /**
+     *      @author pranav
+     *      Tests that the method computes word level statistics
+     */
     @Test
     public void findWordLevelStatistic() {
         List<String> tweetsList = Arrays.asList("I am happy 🙂", "🙂 I", "happy");
