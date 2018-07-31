@@ -20,5 +20,3 @@ GET		/getLocation/:latitude/:longitude		controllers.HomeController.getLocation(l
 GET		/getUserProfile/:username		controllers.HomeController.getUserProfile(username:String)
 
 GET		/tweetWords/:query			controllers.HomeController.getTweetWords(query:String)
-
-GET		/getSentiment/:query		controllers.HomeController.getSentiment(query:String)

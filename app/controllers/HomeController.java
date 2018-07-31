@@ -58,7 +58,7 @@ public class HomeController extends Controller {
      * @param hashtag the hashtag with which the query is run
      * @return a Future of a result to be rendered to the HTML page
      */
-    public CompletionStage<Result> getHashtags(String hashtag) {
+    public CompletionStage<Result> getHashtags(String hashtag) throws Exception{
         return TweetsService.getHashtagTweets(hashtag).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Hashtag Tweets")));
     }
 
@@ -69,18 +69,18 @@ public class HomeController extends Controller {
      * @param longitude geolocation attribute of the owner of the tweet
      * @return a Future of a result to be rendered to the HTML page
      */
-    public CompletionStage<Result> getLocation(String latitude, String longitude){
+    public CompletionStage<Result> getLocation(String latitude, String longitude) throws Exception{
         return TweetsService.getLocationTweets(latitude, longitude).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Location Tweets")));
     }
 
     /**
-     * @author kritika 
+     * @author kritika
      * An action that returns a HTML page with the profile of the tweet owner
      * @param username the name of the user whose profile is retrieved
      * @return  a Future of a result to be rendered to the HTML page
      * @throws TwitterException
      */
-    public CompletionStage<Result> getUserProfile(String username) throws TwitterException{
+    public CompletionStage<Result> getUserProfile(String username) throws Exception{
         return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, getUserTweets(username))));
     }
 
@@ -114,20 +114,5 @@ public class HomeController extends Controller {
     	    	.thenCompose(tweetsList -> CompletableFuture.supplyAsync(
     	    						()->TweetWordsModel.tweetWords(tweetsList))
     	    			    		.thenApply(tweets->ok(tweetWords.render(tweets, query))));
-    }
-
-    /**
-     * @author simran
-     * Returns a sentiment for every search term based on 100 tweets
-     * @param keywords keyword of the query from which the sentiment is computed
-     * @return a future of a result to be rendered to an HTML page
-     * @throws Exception
-     */
-    public CompletionStage<Result> getSentiment(String keywords) throws Exception {
-    	
-    	//SentimentCompute.smileyLevelStatistic(TweetsService.getTweets(keywords,100).get());
-    
-    			
-        return TweetsService.getTweets(keywords,100).thenApplyAsync(tweets -> ok(tweets)); //TwitterService.getUserName
     }
 }
