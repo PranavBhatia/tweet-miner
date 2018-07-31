@@ -53,6 +53,7 @@ public class HomeController extends Controller {
     }
 
     public List<Status> getUserTweets(String username){
+
         Twitter twitter = TwitterObject.getInstance();
         ArrayList<Status> userTweets = new ArrayList<>();
         try {
