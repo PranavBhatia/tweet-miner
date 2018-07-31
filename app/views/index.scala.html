@@ -68,7 +68,7 @@
 						else
 							rowCount = $('table#tweetTable tr:last').index()+1;
 
-						for(j=0; j<number_of_rows; j++){
+						for(j=0; j<number_of_rows && j<10; j++){
 							var location = data[j].userLocation;
 							table_row+='<tr>';
 							table_row+='<td>';

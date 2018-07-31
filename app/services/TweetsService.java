@@ -109,7 +109,7 @@ public class TweetsService {
         Twitter twitter = TwitterObject.getInstance();
         User user=null;
         try {
-            user = (twitter.showUser(username));
+            user = twitter.showUser(username);
         }catch (TwitterException e) {
             e.printStackTrace();
         }
