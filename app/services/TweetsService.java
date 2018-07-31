@@ -36,7 +36,7 @@ public class TweetsService {
         QueryResult result = null;
         result = twitter.search(query);
         List<Status> tweets = result.getTweets();
-        String sentiments = SentimentCompute.smileyLevelStatistic(tweets);
+  
         ArrayNode tweetsArrayNode = Json.newArray();
 
         tweets.forEach((tweet) -> {
@@ -45,8 +45,7 @@ public class TweetsService {
             tempTweetsObjectNode.put("userName", tweet.getUser().getName());
             tempTweetsObjectNode.put("userScreenName", tweet.getUser().getScreenName());
             tempTweetsObjectNode.put("userLocation", tweet.getUser().getLocation());
-            tempTweetsObjectNode.put("sentiment", sentiments);
-
+            
             if(tweet.getGeoLocation()!=null) {
                 tempTweetsObjectNode.put("geolocationLatitude", tweet.getGeoLocation().getLatitude());
                 tempTweetsObjectNode.put("geolocationLongitude", tweet.getGeoLocation().getLongitude());

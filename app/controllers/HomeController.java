@@ -49,7 +49,9 @@ public class HomeController extends Controller {
      * @throws Exception
      */
     public CompletionStage<Result> search(String keywords) throws Exception{
-        return TweetsService.getTweets(keywords, 100).thenApplyAsync(tweets -> ok(tweets));
+    	 return TweetsService.getTweets(keywords,100)
+         		.thenCompose( (f) -> CompletableFuture.supplyAsync( () -> SentimentCompute.smileyLevelStatistic(f) ))     
+         		.thenApplyAsync( (tweets) -> ok(tweets));
     }
 
     /**
