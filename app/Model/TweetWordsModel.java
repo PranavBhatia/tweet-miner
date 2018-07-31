@@ -15,9 +15,20 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.util.stream.Collectors;
 import static java.util.Comparator.reverseOrder;
 
-
+/**
+ * This controller generated word level statistics based on 100 tweets for a search query
+ * 
+ * @author nileesha
+ *
+ */
 public class TweetWordsModel {
 
+	/**
+	 * @author nileesha
+	 * Returns map representing word-level statistics
+	 * @param tweetList array of JSON objects representing tweets
+	 * @return map containing word and count in descending order of count
+	 */
 	public static Map<String, Long> tweetWords(ArrayNode tweetList) {
 
 		List<String>tweetTexts = new ArrayList<String>();
@@ -29,6 +40,12 @@ public class TweetWordsModel {
 		return findWordLevelStatistic(tweetTexts);
 	}
 
+	/**
+	 * @author nileesha
+	 * Computes word level statistics
+	 * @param tweetTexts arraylist containg tweet texts
+	 * @return map representing word-level statistics
+	 */
 	public static Map<String, Long> findWordLevelStatistic(List<String> tweetTexts) {
 		List <String> words = tweetTexts.stream()
 				.map(tweet -> tweet.split("\\s+"))

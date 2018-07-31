@@ -6,7 +6,10 @@ import twitter4j.GeoLocation;
 import twitter4j.HashtagEntity;
 import static java.util.stream.Collectors.toList;
 
-
+/**
+ * @author v6
+ * Class representing a tweet
+ */
 public class TweetModel {
 	private String text;
 	private String author;
@@ -14,6 +17,14 @@ public class TweetModel {
 	private String sentiment;
 	private String location;
 	
+	
+	/**
+	 * creates an instance of a tweet model
+	 * @param text text contained in the tweet
+	 * @param author person who wrote the tweet
+	 * @param location location of tweet author
+	 * @param hashTags list of hashtag contained in tweet
+	 */
 	public TweetModel(String text, String author, String location, List<HashtagEntity> hashTags) {
 		this.text = text;
 		this.author = author;

@@ -13,8 +13,17 @@ import play.libs.Json;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * 
+ * @author pranav
+ *
+ */
 public class TwitterObject {
 	
+	/**
+	 * Get a twitter instance after authentication
+	 * @return a Twitter instance
+	 */
 	public static Twitter getInstance() {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 	    cb.setDebugEnabled(true).setOAuthConsumerKey("uvZYPifCuMDmDLhGzryVaH9sA")
