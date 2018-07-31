@@ -13,17 +13,32 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests the TweetService class
+ */
 public class TweetsServiceTest {
+    /**
+     * Sets up the initial face before running the actual test methods
+     * @throws Exception
+     */
     @BeforeClass
     public static void setUp() throws Exception {
        TwitterObject.testCase = true;
     }
 
+    /**
+     * Sets up the teardown face after all the test methods are run
+     * @throws Exception
+     */
     @AfterClass
     public static void tearDown() throws Exception {
         TwitterObject.testCase = false;
     }
 
+    /**
+     * checks the username returned from the getTweets() method in the twitter API
+     * @throws Exception
+     */
     @Test
     public void testGetTweets_checkUser() throws Exception{
         CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
