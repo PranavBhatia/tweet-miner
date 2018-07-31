@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  * This class test the various scenarios of TweetWords Model Class
  * @throws Exception
  */
-public class TweetWordsModelTest {
+public class TweetWordsModelUnitTest {
     /**
      * @author pranav
      * Creates the environment for testing the TweetWords Model Class

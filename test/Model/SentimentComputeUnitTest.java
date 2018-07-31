@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
  * Class to test all the method in SentimentCompute class
  */
 
-public class SentimentComputeTest {
+public class SentimentComputeUnitTest {
 
     /**
      * @author Simran

@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  *  the twitter api to retrieve tweets based on a keyword
  */
 
-public class TweetsServiceTest {
+public class TweetsServiceUnitTest {
     /**
      * @author pranav
      *  Creates the environment for testing the Tweets Service Class

@@ -30,3 +30,6 @@ javaOptions in Test ++= Seq(
   "-Xss1M",
   "-XX:MaxPermSize=384M"
 )
+
+// Javadoc
+sources in (Compile, doc) ~= (_ filter (_.getName endsWith ".java"))

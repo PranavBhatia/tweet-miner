@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
  * handles the HTTP requests to the home page.
  */
 
-public class HomeControllerTest {
+public class HomeControllerUnitTest {
 
     public static HomeController controller;
 
