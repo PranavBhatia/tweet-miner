@@ -58,9 +58,15 @@ h1{
 
 th {
     font-weight: bold;
+	/*padding-left: 40px;
+	padding-right: 40px;
+	padding-bottom: 2px;
+	padding-top: 2px;*/
+	padding: 8px;
+	text-align: center;
 }
 
-th, td {
+/*th,*/ td {
 	text-align: center;
     padding: 8px;
 }

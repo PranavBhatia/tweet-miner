@@ -23,4 +23,10 @@ libraryDependencies += "org.twitter4j" % "twitter4j-core" % "4.0.4"
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
 
-
+javaOptions in Test ++= Seq(
+  "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9998",
+  "-Xms512M",
+  "-Xmx1536M",
+  "-Xss1M",
+  "-XX:MaxPermSize=384M"
+)
