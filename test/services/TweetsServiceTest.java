@@ -13,17 +13,39 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author pranav
+ *  Contains various test scenarios for TweetService Class which uses
+ *  the twitter api to retrieve tweets based on a keyword
+ */
+
 public class TweetsServiceTest {
+    /**
+     * @author pranav
+     *  Creates the environment for testing the Tweets Service Class
+     *  by setting the testCase variable as true
+     * @throws Exception
+     */
     @BeforeClass
     public static void setUp() throws Exception {
        TwitterObject.testCase = true;
     }
-
+    /**
+     * @author pranav
+     *  Sets the testcase variable as false
+     * @throws Exception
+     */
     @AfterClass
     public static void tearDown() throws Exception {
         TwitterObject.testCase = false;
     }
 
+    /**
+     * @author pranav
+     * Tests the getTweets method and
+     * asserts that the user is same
+     * @throws Exception
+     */
     @Test
     public void testGetTweets_checkUser() throws Exception{
         CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
@@ -31,12 +53,25 @@ public class TweetsServiceTest {
         assertEquals(testNode.get(0).get("userName").asText(), "Rodolfo");
     }
 
+    /**
+     * @author pranav
+     * Tests the getTweets method and
+     * asserts that at least one tweet is returned as result
+     * @throws Exception
+     */
+    @Test
     public void testGetTweets_checkSize() throws Exception{
         CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
         ArrayNode testNode = testNodeFuture.get();
         assertTrue(testNode.size() > 0);
     }
 
+    /**
+     * @author pranav
+     * Tests that at least one tweet is returned as a result when queried for
+     * the hashtags
+     * @throws Exception
+     */
     @Test
     public void getHashtagTweets() throws Exception{
         CompletableFuture<List<Status>> listCompletableFuture = TweetsService.getHashtagTweets("dermicool");
@@ -44,6 +79,12 @@ public class TweetsServiceTest {
         assertTrue(statusArrayList.size() > 0);
     }
 
+    /**
+     * @author pranav
+     * tests that at least one tweet is returned as a result when queried
+     * on the basis of the geoLocation
+     * @throws Exception
+     */
     @Test
     public void testGetLocationTweets_locationNull() throws Exception{
         TwitterObject.emotion = 1;
@@ -59,6 +100,11 @@ public class TweetsServiceTest {
     }
     */
 
+    /**
+     * @author pranav
+     * tests for the user of the tweet
+     * @throws Exception
+     */
     @Test
     public void getUser() throws Exception{
         TwitterObject.emotion = 1;

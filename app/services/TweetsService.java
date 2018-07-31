@@ -16,8 +16,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ExecutionException;
 
 public class TweetsService {
-
-
 	/**
 	 * @author v6
 	 * use the twitter api to retrieve tweets based on a keyword
@@ -67,8 +65,8 @@ public class TweetsService {
 
     /**
      * @author shireen
-     * Obtains tweets from twitter api based on user location
-     * @param hashtag tweets will be based on this location
+     * Obtains tweets from twitter api based on hashtags
+     * @param hashtag tweets will be based on hashtags
      * @return future of a list of json objects containing tweets
      */
 
