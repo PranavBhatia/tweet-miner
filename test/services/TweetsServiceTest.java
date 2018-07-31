@@ -1,54 +1,67 @@
 package services;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import twitter4j.Status;
+import twitter4j.Twitter;
 import twitter4j.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.Assert.*;
 
 public class TweetsServiceTest {
-
-    @Before
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void setUp() throws Exception {
+       TwitterObject.testCase = true;
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @AfterClass
+    public static void tearDown() throws Exception {
+        TwitterObject.testCase = false;
     }
 
     @Test
-    public void getTweets() throws Exception{
+    public void testGetTweets_checkUser() throws Exception{
         CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
         ArrayNode testNode = testNodeFuture.get();
-        assertEquals(testNode.get(0).get("userScreenName").asText(), "PranavB83923688");
+        assertEquals(testNode.get(0).get("userName").asText(), "Rodolfo");
+    }
+
+    public void testGetTweets_checkSize() throws Exception{
+        CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
+        ArrayNode testNode = testNodeFuture.get();
+        assertTrue(testNode.size() > 0);
     }
 
     @Test
-    public void getHashtagTweets() {
-        assertEquals(1,1);
+    public void getHashtagTweets() throws Exception{
+        CompletableFuture<List<Status>> listCompletableFuture = TweetsService.getHashtagTweets("dermicool");
+        ArrayList<Status> statusArrayList = (ArrayList<Status>) listCompletableFuture.get();
+        assertTrue(statusArrayList.size() > 0);
     }
 
     @Test
-    public void getLocationTweets() {
+    public void testGetLocationTweets_locationNull() throws Exception{
+        TwitterObject.emotion = 1;
+        CompletableFuture<List<Status>> listCompletableFuture = TweetsService.getLocationTweets("45.5363999", "-73.5614825");
+        assertTrue(listCompletableFuture.get().size() > 0);
     }
 
+   /* @Test
+    public void testGetLocationTweets_locationPresent() throws Exception{
+        TwitterObject.emotion = 0;
+        CompletableFuture<List<Status>> listCompletableFuture = TweetsService.getLocationTweets("45.5363999", "-73.5614825");
+        assertTrue(listCompletableFuture.get().size() > 0);
+    }
+*/
     @Test
-    public void getUser() {
-        CompletableFuture<User> testNodeFuture = TweetsService.getUser("Pranav Bhatia");
-        User testUser = null;
-        try {
-            testUser = testNodeFuture.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-       // assertEquals(testUser.get(0).show());
-
+    public void getUser() throws Exception{
+        TwitterObject.emotion = 1;
+        CompletableFuture<User> testNodeFuture = TweetsService.getUser("Rodolfo");
+        System.out.println(testNodeFuture.get());
     }
 }
