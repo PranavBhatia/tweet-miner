@@ -9,8 +9,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import twitter4j.Status;
+
+/**
+ * computes tweet sentiment based on 100 latest tweets and render to HTML page
+ * @author simran
+ * 
+ */
 public class SentimentCompute {
 	
+	/**
+	 * gets number of happy emojis based on 100 latest tweets
+	 * @param tweetList list containg latest 100 tweets
+	 * @return number of happy emojis
+	 */
 	public static Long computeHappy(List<String> tweetList)
 	{
 		Long happycount=tweetList.stream()
@@ -22,6 +33,11 @@ public class SentimentCompute {
 		      return happycount;		
 	}
 	
+	/**
+	 * gets number of sad emojis based on 100 latest tweets
+	 * @param tweetList list containg latest 100 tweets
+	 * @return  number of sad emojis
+	 */
 	public static Long computeSad(List<String> tweetList)
 	{
 		
@@ -34,9 +50,13 @@ public class SentimentCompute {
 		return sadcount;
 	}
 	
-	
-	
-	
+	/**
+	 * 
+	 * @param tweetList 
+	 * @return
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 */
 	public static String smileyLevelStatistic(List<Status> tweetList) throws InterruptedException, ExecutionException {
 		
 	    // Building a list of the Json->

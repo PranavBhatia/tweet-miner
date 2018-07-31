@@ -5,7 +5,16 @@ import mockClasses.PseudoTwitterSad;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * 
+ * @author pranav
+ *
+ */
 public class TwitterObject {
+    /**
+	 * Get a twitter instance after authentication
+	 * @return a Twitter instance
+	 */
 	public static boolean testCase = false;
     public static int emotion = 1;
 	public static Twitter getInstance() {
