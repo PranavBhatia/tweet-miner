@@ -13,11 +13,11 @@ public class SentimentCompute {
 	
 	public static Long computeHappy(List<String> tweetList)
 	{
-		Long happycount=tweetList.stream()
+		Long happycount=tweetList.parallelStream()
 				            .filter(t-> {	
 					                      return t.contains("\uD83D\uDE42") && !t.contains("\uD83D\uDE1E");
 				                        }) // return a true (happy tweet) - if the tweet has only a happy emoji and no sad emoji 
-				            .parallel()
+				            
 				            .count(); // count the number of true
 		      return happycount;		
 	}
@@ -25,12 +25,11 @@ public class SentimentCompute {
 	public static Long computeSad(List<String> tweetList)
 	{
 		
-		Long sadcount=tweetList.stream()
+		Long sadcount=tweetList.parallelStream()
                 .filter(t->{ 
                 	        return t.contains("\uD83D\uDE1E") && !t.contains("\uD83D\uDE42");
                 	       }) // return a true (sad tweet) - if the tweet has only a sad emoji and no happy emoji
-                .parallel()
-                .count(); // count the number of true
+                 .count(); // count the number of true
 		return sadcount;
 	}
 	
