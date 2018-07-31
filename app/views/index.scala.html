@@ -52,12 +52,9 @@
 						table_row+='<tr>';
 						table_row+='<td></td>';
 						table_row+='<td>';
-						table_row+='<center><b><font color="#7cfc00">Search Keyword = ';
-						table_row+='<center><a href ="http://localhost:9000/tweetWords/'+input+'" target="_blank">'
-						table_row+= input;
-						table_row+='</a></center>'
-						table_row+='</a></center></b></font>';
-                        table_row+='<center>Sentiment '+data[0].sentiments+'</center>';
+						table_row+='<center><b><font color="#7cfc00">Search Keyword = <a href ="http://localhost:9000/tweetWords/'+input+'" target="_blank">'+input+'';
+						table_row+='</a>';
+                        table_row+='; Sentiment '+data[0].sentiments+'</center></font></b>';
 						table_row+='</td>';
 						table_row+='</tr>';
 						var rowCount;

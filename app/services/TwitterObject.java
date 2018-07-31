@@ -1,6 +1,7 @@
 package services;
 
 import mockClasses.PseudoTwitterHappy;
+import mockClasses.PseudoTwitterNeutral;
 import mockClasses.PseudoTwitterSad;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
@@ -33,7 +34,8 @@ public class TwitterObject {
                 return new PseudoTwitterHappy();
             else if (emotion == -1)
                 return new PseudoTwitterSad();
-            return null;
+            else
+                return new PseudoTwitterNeutral();
         }
 	}
 }
