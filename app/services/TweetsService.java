@@ -17,20 +17,14 @@ import java.util.concurrent.ExecutionException;
 
 public class TweetsService {
 
-
-    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit) throws InterruptedException,ExecutionException{
+    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit) throws Exception{
         CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         Query query = new Query(keyword);
         query.setCount(limit);
 
         QueryResult result = null;
-        try {
-            result = twitter.search(query);
-        }catch (TwitterException e){
-            e.printStackTrace();
-        }
-
+        result = twitter.search(query);
         List<Status> tweets = result.getTweets();
         String sentiments = SentimentCompute.smileyLevelStatistic(tweets);
         ArrayNode tweetsArrayNode = Json.newArray();
@@ -58,29 +52,23 @@ public class TweetsService {
             tempTweetsObjectNode.put("getHashtags", s.toString());
             tweetsArrayNode.add(tempTweetsObjectNode);
         });
-        System.out.println("TweetsText:"+tweetsArrayNode.get(0).get("tweetsText").asText());
-
         future.complete(tweetsArrayNode);
         return future;
     }
 
-    public static CompletableFuture<List<Status>> getHashtagTweets(String location){
+    public static CompletableFuture<List<Status>> getHashtagTweets(String hashtag) throws Exception{
         CompletableFuture<List<Status>> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
-        Query query = new Query(location);
+        Query query = new Query(hashtag);
         query.setCount(10);
         QueryResult result = null;
-        try {
-            result = twitter.search(query);
-        }catch (TwitterException e){
-            e.printStackTrace();
-        }
+        result = twitter.search(query);
         List<Status> tweets = result.getTweets();
         future.complete(tweets);
         return future;
     }
 
-    public static CompletableFuture<List<Status>> getLocationTweets(String latitude, String longitude){
+    public static CompletableFuture<List<Status>> getLocationTweets(String latitude, String longitude) throws Exception{
         //For testing -> http://localhost:9000/getLocation/28.56929189/%2077.31774961
         CompletableFuture<List<Status>> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
@@ -93,26 +81,18 @@ public class TweetsService {
             Query query = new Query().geoCode(new GeoLocation(lat,lon), res, resUnit);
             query.setCount(10);
             QueryResult result = null;
-            try {
-                result = twitter.search(query);
-            }catch (TwitterException e){
-                e.printStackTrace();
-            }
+            result = twitter.search(query);
             tweets = (ArrayList<Status>) result.getTweets();
         }
         future.complete(tweets);
         return future;
     }
 
-    public static CompletableFuture<User> getUser(String username){
+    public static CompletableFuture<User> getUser(String username) throws Exception{
         CompletableFuture<User> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         User user=null;
-        try {
-            user = twitter.showUser(username);
-        }catch (TwitterException e) {
-            e.printStackTrace();
-        }
+        user = twitter.showUser(username);
         future.complete(user);
         System.out.println("User = " + user);
         return future;

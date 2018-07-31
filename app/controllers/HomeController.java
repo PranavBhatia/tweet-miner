@@ -40,15 +40,15 @@ public class HomeController extends Controller {
         return TweetsService.getTweets(keywords, 100).thenApplyAsync(tweets -> ok(tweets));
     }
 
-    public CompletionStage<Result> getHashtags(String hashtag) {
+    public CompletionStage<Result> getHashtags(String hashtag) throws Exception{
         return TweetsService.getHashtagTweets(hashtag).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Hashtag Tweets")));
     }
 
-    public CompletionStage<Result> getLocation(String latitude, String longitude){
+    public CompletionStage<Result> getLocation(String latitude, String longitude) throws Exception{
         return TweetsService.getLocationTweets(latitude, longitude).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Location Tweets")));
     }
 
-    public CompletionStage<Result> getUserProfile(String username) throws TwitterException{
+    public CompletionStage<Result> getUserProfile(String username) throws Exception{
         return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, getUserTweets(username))));
     }
 
@@ -72,8 +72,7 @@ public class HomeController extends Controller {
     public CompletionStage<Result> getSentiment(String keywords) throws Exception {
     	
     	//SentimentCompute.smileyLevelStatistic(TweetsService.getTweets(keywords,100).get());
-    
-    			
+
         return TweetsService.getTweets(keywords,100).thenApplyAsync(tweets -> ok(tweets)); //TwitterService.getUserName
     }
 }
