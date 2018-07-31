@@ -57,7 +57,8 @@ public class TweetsServiceTest {
         CompletableFuture<List<Status>> listCompletableFuture = TweetsService.getLocationTweets("45.5363999", "-73.5614825");
         assertTrue(listCompletableFuture.get().size() > 0);
     }
-*/
+    */
+
     @Test
     public void getUser() throws Exception{
         TwitterObject.emotion = 1;

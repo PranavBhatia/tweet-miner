@@ -92,13 +92,13 @@ public class HomeController extends Controller {
      * @param username tweets retrieved from user with this username
      * @return a list of status objects storing tweets
      */
-    public List<Status> getUserTweets(String username){
+    public List<Status> getUserTweets(String username) {
 
         Twitter twitter = TwitterObject.getInstance();
         ArrayList<Status> userTweets = new ArrayList<>();
         try {
             userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));
-        }catch (TwitterException e){
+        }catch (Exception e){
             e.printStackTrace();
         }
         return userTweets;

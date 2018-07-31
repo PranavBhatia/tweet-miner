@@ -114,48 +114,7 @@ public class SentimentCompute {
 	     tempTweetsObjectNode.put("sentiments", emoji);
 	     tweetsList.remove(0);
 	     tweetsList.insert(0,tempTweetsObjectNode);
-		
-/*	Commenting below implementation - as we cannot return a future back to the HomeController to avoid running .get() method     
-	   CompletableFuture<ArrayNode> s=CompletableFuture.supplyAsync( () -> { return SentimentCompute.computeHappy(tweetHolder);} )
-					.thenCombine(   CompletableFuture.supplyAsync( ()-> {return SentimentCompute.computeSad(tweetHolder);}   )
-							        , (s1, s2) -> {
-							   		 //System.out.println("happy tweet:"+s1.intValue());
-					        		// System.out.println("sad tweet:"+s2.intValue());
-					        		 //System.out.println("Total tweet:"+tweetHolder.size());
-					        		// System.out.println("70% of tot:"+(int)(tweetHolder.size() * 0.70));
-					        		
-							        	 if ( s1.intValue() > (int)(tweetHolder.size() * 0.70)) {
-							        		 
-							        		
-							     	    	return ":-)"; // Happy face
-							     	    }
-							        	 else if (s2.intValue() > (int)(tweetHolder.size() * 0.70))
-							        	 {
-							        		 
-							        		 return ":-(";
-							        	 }
-							        	 else
-							        	 { 
-							        		
-							        		  return ":-|";//Neutral face
-							        	 }
-							        	 
-							        })
-					.thenApply( (str) -> { 	
-					
-						ObjectNode tempTweetsObjectNode1 = Json.newObject();
-						tempTweetsObjectNode1=(ObjectNode) tweetsList.get(0);
-						tempTweetsObjectNode1.put("sentiments", emoji);
-						 tweetsList.insert(0,tempTweetsObjectNode1);
-					   //  System.out.println ( "test"+str );
-						return tweetsList;
-					
-					});
-	     
-	     
-	     
-	     return s;
-	*/     
+
 	     return tweetsList;
 		
 		

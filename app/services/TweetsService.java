@@ -120,7 +120,6 @@ public class TweetsService {
      */
 
     public static CompletableFuture<User> getUser(String username) throws Exception{
-
         CompletableFuture<User> future = new CompletableFuture<>();
         Twitter twitter = TwitterObject.getInstance();
         User user=null;
