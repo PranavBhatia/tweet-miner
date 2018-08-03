@@ -60,8 +60,7 @@ public class TweetWordsModel {
 						.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
 						.entrySet().stream()
 						.sorted(Map.Entry.<String, Long> comparingByValue(reverseOrder()).thenComparing(Map.Entry.comparingByKey()))
-						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-								(oldValue, newValue) -> oldValue, LinkedHashMap::new));
+						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
 		return result;
 	}

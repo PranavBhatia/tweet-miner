@@ -34,7 +34,7 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      * 
      * This method renders the index page and displays the message passed in the render method().
-     * @author pranav
+     * @author Pranav Bhatia
      * @return Result 
      */
     public Result index() {
@@ -42,7 +42,7 @@ public class HomeController extends Controller {
     }
 
     /**
-     * @author pranav
+     * @author Pranav Bhatia
      * An action that returns a HTML page with data from 10 tweets
      * @param keywords user search query
      * @return 
@@ -65,7 +65,7 @@ public class HomeController extends Controller {
     }
 
     /**
-     * @author pranav
+     * @author Pranav Bhatia
      * An action that returns a HTML page with tweets from the specific geolocation
      * @param latitude  geolocation attribute of the owner of the tweet
      * @param longitude geolocation attribute of the owner of the tweet
@@ -83,25 +83,7 @@ public class HomeController extends Controller {
      * @throws TwitterException
      */
     public CompletionStage<Result> getUserProfile(String username) throws Exception{
-        return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, getUserTweets(username))));
-    }
-
-    /**
-     * @author kritika
-     * Gets user tweets based on username
-     * @param username tweets retrieved from user with this username
-     * @return a list of status objects storing tweets
-     */
-    public List<Status> getUserTweets(String username) {
-
-        Twitter twitter = TwitterObject.getInstance();
-        ArrayList<Status> userTweets = new ArrayList<>();
-        try {
-            userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return userTweets;
+        return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, TweetsService.getUserTweets(username))));
     }
 
     /**

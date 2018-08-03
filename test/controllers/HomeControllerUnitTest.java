@@ -1,6 +1,7 @@
 package controllers;
 
 import org.junit.*;
+import services.TweetsService;
 
 import static org.junit.Assert.*;
 
@@ -100,7 +101,7 @@ public class HomeControllerUnitTest {
      */
     @Test
     public void getUserTweets() throws Exception{
-        assertNotNull(controller.getUserTweets("dermicool"));
+        assertNotNull(TweetsService.getUserTweets("dermicool"));
     }
 
     /**

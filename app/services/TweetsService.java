@@ -83,7 +83,7 @@ public class TweetsService {
     }
 
     /**
-     * @author pranav
+     * @author Pranav Bhatia
      * Obtains tweets from twitter api based on user's geolocation
      * @param latitude geolocation attribute of tweeting user
      * @param longitude
@@ -125,5 +125,20 @@ public class TweetsService {
         future.complete(user);
         System.out.println("User = " + user);
         return future;
+    }
+
+    /**
+     * @author kritika
+     * Gets user tweets based on username
+     * @param username tweets retrieved from user with this username
+     * @return a list of status objects storing tweets
+     */
+    public static List<Status> getUserTweets(String username) {
+
+        Twitter twitter = TwitterObject.getInstance();
+        ArrayList<Status> userTweets = new ArrayList<>();
+        try {
+            userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));}catch (Exception e){}
+        return userTweets;
     }
 }

@@ -8,7 +8,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * 
- * @author pranav
+ * @author Pranav Bhatia
  *
  */
 public class TwitterObject {
