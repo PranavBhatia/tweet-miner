@@ -7,7 +7,9 @@ import services.TweetsService;
 import services.TwitterObject;
 import static org.junit.Assert.*;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -40,26 +42,96 @@ public class SentimentComputeUnitTest {
 
     /**
      * @author Simran
-     * tests computeHappy method in SentimentCompute class
+     * Test : getTweetEmoji returns Happy Sentiment for the given input
      */
     @Test
-    public void testcomputeHappy() {
-        List<String> happy_List=Arrays.asList("I am happy \uD83D\uDE42","Today is a Submission Day \uD83D\uDE14");
-        Long result=1L;
-        assertEquals(SentimentCompute.computeHappy(happy_List),result);
+    public void testgetTweetEmojiHappy() {
+        
+    	String happyTweet="I am happy \uD83D\uDE42";
+        String expected_emotion=":-)";
+        assertEquals(SentimentCompute.getTweetEmoji(happyTweet),expected_emotion);
+    }
+    
+    /**
+     * @author Simran
+     * Test : getTweetEmoji returns Sad Sentiment for the given input
+     */
+    @Test
+    public void testgetTweetEmojiSad() {
+        
+    	String sadTweet="I am happy \uD83D\uDE14";
+        String expected_emotion=":-(";
+        assertEquals(SentimentCompute.getTweetEmoji(sadTweet),expected_emotion);
+    }
+    
+    /**
+     * @author Simran
+     * Test : getTweetEmoji returns Neutral Sentiment for the given input
+     */
+    
+    @Test
+    public void testgetTweetEmojiNeutral() {
+        
+    	String neutralTweet="\uD83D\uDE42 I am happy \uD83D\uDE14";
+        String expected_emotion=":-|";
+        assertEquals(SentimentCompute.getTweetEmoji(neutralTweet),expected_emotion);
     }
 
     /**
      * @author Simran
-     * tests computeSad method in SentimentCompute class
+     * Test: computeEmoji return the sentiment expressed in more than 70% of Tweets.
+     * Assumptions : Total Tweet Count = 3. 
      */
 
     @Test
-    public void testcomputeSad() {
-        List<String> sad_List=Arrays.asList("Today is a Submission Day \uD83D\uDE1E","I am happy \uD83D\uDE42");
-        Long result=1L;
-        assertEquals(SentimentCompute.computeSad(sad_List),result);
+    public void testcomputeEmojiHappy() {
+        
+        Map<String,Long> input=new HashMap<String,Long>();
+        input.put(":-)", 2L);
+        input.put(":-(", null);
+        input.put(":-|", null);
+        int threshold=1;
+        String expected_result=":-)";
+        assertEquals(SentimentCompute.computeEmoji(input,threshold),expected_result);
     }
+
+    /**
+     * @author Simran
+     * Test: computeEmoji return the sentiment expressed in more than 70% of Tweets.
+     * Assumptions : Total Tweet Count = 3.
+     */
+
+    @Test
+    public void testcomputeEmojiSad() {
+
+        Map<String,Long> input=new HashMap<String,Long>();
+        input.put(":-)", null);
+        input.put(":-(", 2L);
+        input.put(":-|", null);
+        int threshold=1;
+        String expected_result=":-(";
+        assertEquals(SentimentCompute.computeEmoji(input,threshold),expected_result);
+    }
+
+    /**
+     * @author Simran
+     * Test: computeEmoji return the sentiment expressed in more than 70% of Tweets.
+     * Assumptions : Total Tweet Count = 3.
+     */
+
+    @Test
+    public void testcomputeEmojiNeutral() {
+
+        Map<String,Long> input=new HashMap<String,Long>();
+        input.put(":-)", null);
+        input.put(":-(", null);
+        input.put(":-|", 2L);
+        int threshold=1;
+        String expected_result=":-|";
+        assertEquals(SentimentCompute.computeEmoji(input,threshold),expected_result);
+    }
+
+
 
     /**
      * @author Simran
@@ -76,10 +148,8 @@ public class SentimentComputeUnitTest {
         System.out.print(output.get(0).get("sentiments").textValue());
         assertEquals(output.get(0).get("sentiments").textValue(),":-)");
 
-
-
     }
-
+    
     /**
      * @author Simran
      * tests smileyLevelStatistic method for :-( sentiment
@@ -95,7 +165,7 @@ public class SentimentComputeUnitTest {
         System.out.print(output.get(0).get("sentiments").textValue());
         assertEquals(output.get(0).get("sentiments").textValue(),":-(");
     }
-
+    
     /**
      * @author Simran
      * tests smileyLevelStatistic method for :-| sentiment
@@ -111,4 +181,6 @@ public class SentimentComputeUnitTest {
         System.out.print(output.get(0).get("sentiments").textValue());
         assertEquals(output.get(0).get("sentiments").textValue(),":-|");
     }
+
+
 }
