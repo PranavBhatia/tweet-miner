@@ -5,6 +5,5 @@ import twitter4j.Twitter;
 
 @ImplementedBy (TwitterApiLiveImpl.class)
 public interface TwitterApi {
-
 	Twitter getTwitterInstance();
 }
