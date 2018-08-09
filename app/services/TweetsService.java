@@ -19,7 +19,6 @@ public class TweetsService {
 	 * @param limit number of tweets to be returned
 	 * @return future of a list of json objects
 	 * @throws InterruptedException
-	 * @throws ExecutionException
 	 */
 	
 	static Injector injector = Guice.createInjector(new TwitterModule());
@@ -155,8 +154,8 @@ public class TweetsService {
      * @param username tweets retrieved from user with this username
      * @return a list of status objects storing tweets
      */
-    public static List<Status> getUserTweets(String username) {
-
+    public static CompletableFuture<List<Status>> getUserTweets(String username) {
+        CompletableFuture<List<Status>> future = new CompletableFuture<>();
         Twitter twitter =twitserv.getTwitterInstance();
         System.out.println("getUserTweets");
         System.out.println("twitserv: "+twitserv.hashCode());
@@ -166,6 +165,7 @@ public class TweetsService {
         ArrayList<Status> userTweets = new ArrayList<>();
         try {
             userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));}catch (Exception e){}
-        return userTweets;
+        future.complete(userTweets);
+        return future;
     }
 }
