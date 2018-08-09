@@ -83,7 +83,13 @@ public class HomeController extends Controller {
      * @throws TwitterException
      */
     public CompletionStage<Result> getUserProfile(String username) throws Exception{
-        return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, TweetsService.getUserTweets(username))));
+       /* return TweetsService.getUser(username).
+        		thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, TweetsService.getUserTweets(username))));*/
+    	
+    	return TweetsService.getUser(username)
+    			.thenCombine( TweetsService.getUserTweets(username), (profile, tweetsList)->ok(userProfile.render(profile, tweetsList)));
+    			
+    	
     }
 
     /**

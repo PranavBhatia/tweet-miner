@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
+import Model.UserModel;
 import services.TwitterApiGuiceModel;
 import play.libs.Json;
 import twitter4j.*;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class TweetsService {
+public class TwitterService {
 	
 	/**
 	 * @author v6
@@ -26,9 +28,8 @@ public class TweetsService {
 	static Injector guice = Guice.createInjector(new TwitterApiGuiceModel());
 	static TwitterObject twitserv = guice.getInstance(TwitterObject.class);
 	
-    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit) throws Exception{
+    public static ArrayNode getTweets(String keyword, int limit) throws Exception{
     	   	  	    	
-        CompletableFuture<ArrayNode> future = new CompletableFuture<>();
         System.out.println("getTweets");
         System.out.println("twitserv: "+twitserv.hashCode());
         Twitter twitter = twitserv.getInstance();
@@ -67,8 +68,7 @@ public class TweetsService {
             tempTweetsObjectNode.put("getHashtags", s.toString());
             tweetsArrayNode.add(tempTweetsObjectNode);
         });
-        future.complete(tweetsArrayNode);
-        return future;
+        return tweetsArrayNode;
     }
 
     /**
@@ -78,8 +78,7 @@ public class TweetsService {
      * @return future of a list of json objects containing tweets
      */
 
-    public static CompletableFuture<List<Status>> getHashtagTweets(String hashtag) throws Exception{
-        CompletableFuture<List<Status>> future = new CompletableFuture<>();
+    public static List<Status> getHashtagTweets(String hashtag) throws Exception{
         System.out.println("getHashtagTweets");
         System.out.println("twitserv: "+twitserv.hashCode());
         System.out.println("Injected by Class: "+ twitserv.injectedByClass);
@@ -91,8 +90,7 @@ public class TweetsService {
         QueryResult result = null;
         result = twitter.search(query);
         List<Status> tweets = result.getTweets();
-        future.complete(tweets);
-        return future;
+        return tweets;
     }
 
     /**
@@ -102,10 +100,9 @@ public class TweetsService {
      * @param longitude
      * @return
      */
-    public static CompletableFuture<List<Status>> getLocationTweets(String latitude, String longitude) throws Exception{
+    public static List<Status> getLocationTweets(String latitude, String longitude) throws Exception{
 
         //For testing -> http://localhost:9000/getLocation/28.56929189/%2077.31774961
-        CompletableFuture<List<Status>> future = new CompletableFuture<>();
         System.out.println("getLocationTweets");
         System.out.println("twitserv: "+twitserv.hashCode());
         System.out.println("Injected by Class: "+ twitserv.injectedByClass);
@@ -124,10 +121,8 @@ public class TweetsService {
             result = twitter.search(query);
             tweets = (ArrayList<Status>) result.getTweets();
         }
-        future.complete(tweets);
-        return future;
+        return tweets;
     }
-
     /**
      * Gets future of user objects
      * @author Kritika
@@ -135,39 +130,14 @@ public class TweetsService {
      * @return future of user object 
      */
 
-    public static CompletableFuture<User> getUser(String username) throws Exception{
-        CompletableFuture<User> future = new CompletableFuture<>();
-        System.out.println("getUser");
-        System.out.println("twitserv: "+twitserv.hashCode());
-        System.out.println("Injected by Class: "+ twitserv.injectedByClass);
+    public static UserModel getUser(String username) throws Exception{
         Twitter twitter = twitserv.getInstance();
-        System.out.println("twitter :"+ twitter.hashCode());
-        System.out.println("----------------------------------");
-        User user=null;
-        user = twitter.showUser(username);
-        future.complete(user);
-        System.out.println("User = " + user);
-        return future;
-    }
+        User user=twitter.showUser(username);
+        List<Status> userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));
 
-    /**
-     * @author kritika
-     * Gets user tweets based on username
-     * @param username tweets retrieved from user with this username
-     * @return a list of status objects storing tweets
-     */
-    public static CompletableFuture<List<Status>> getUserTweets(String username) {
-    	CompletableFuture<List<Status>> future = new CompletableFuture<>();
-        Twitter twitter =twitserv.getInstance();
-        System.out.println("getUserTweets");
-        System.out.println("twitserv: "+twitserv.hashCode());
-        System.out.println("Injected by Class: "+ twitserv.injectedByClass);
-        System.out.println("twitter :"+ twitter.hashCode());
-        System.out.println("----------------------------------");
-        ArrayList<Status> userTweets = new ArrayList<>();
-        try {
-            userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));}catch (Exception e){}
-        	future.complete(userTweets);
-        return future;
-    }
+        UserModel userModel = new UserModel(user, userTweets);
+        return userModel;
+    } 
+
+
 }
