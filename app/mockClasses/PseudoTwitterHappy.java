@@ -15,8 +15,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import services.TwitterApi;
 
-public class PseudoTwitterHappy implements Twitter {
+public class PseudoTwitterHappy implements TwitterApi,Twitter {
+	
+	private static Twitter twitterInstance;
+	
+	@Override
+	public Twitter getTwitterInstance() {
+		
+		if (twitterInstance==null)
+		{ 
+			twitterInstance=new PseudoTwitterHappy();
+		}
+		return twitterInstance;
+	}
+	
+	
+	
     @Override
     public void setOAuthConsumer(String consumerKey, String consumerSecret) {
 
@@ -2051,4 +2067,6 @@ public class PseudoTwitterHappy implements Twitter {
     public void updateProfileBanner(InputStream image) throws TwitterException {
 
     }
+
+	
 }

@@ -1,0 +1,43 @@
+@import java.util.List
+@import twitter4j.Status
+@(data: List[Status], heading: String)
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>@heading</title>
+        <link rel="stylesheet" href="@routes.Assets.at("stylesheets/style.css")">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link href="https://fonts.googleapis.com/css?family=Chela+One" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <h1>@heading</h1>
+        <div id="content" align="center">
+            <table>
+                <thead><tr>
+                    <th>Sr. No.</th>
+                    <th>Tweet</th>
+                    <th>User Name</th>
+                    <th>User Handle Name</th>
+                    <th>Tweet Location</th>
+                    <th>Hash Tag</th>
+                </tr></thead>
+            @for(index <- 1 until data.size+1) {
+                <tr>
+                <td>@index</td>
+                <td>@data(index-1).getText()</td>
+                <td>@data(index-1).getUser().getName()</td>
+                <td>@data(index-1).getUser().getScreenName()</td>
+                <td>@data(index-1).getUser().getLocation()</td>
+                    <td>
+                    @for(i <- 0 until data(index-1).getHashtagEntities.size){
+                        <p>@data(index-1).getHashtagEntities()(i).getText()</p>
+                    }
+                    </td>
+                </tr>
+            }
+        </table>
+        </div>
+    </body>
+</html>

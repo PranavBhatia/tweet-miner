@@ -1,44 +1,95 @@
 package services;
 
+import static play.inject.Bindings.bind;
+
+import javax.inject.Inject;
 import mockClasses.PseudoTwitterHappy;
 import mockClasses.PseudoTwitterNeutral;
 import mockClasses.PseudoTwitterSad;
+import play.Application;
+import play.inject.guice.GuiceApplicationBuilder;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
 /**
+ * 
  * @author Pranav Bhatia
+ *
  */
-public class TwitterObject {
-    /**
-     * Get a twitter instance after authentication
-     *
-     * @return a Twitter instance
-     */
-    public static boolean testCase = false;
-    public static int emotion = 1;
-    private static Twitter singletonTwitterInstance = null;
+public class TwitterObject { 
+  
+	/**
+	 * Get a twitter instance after authentication
+	 * @return a Twitter instance
+	 */
+	
+	static private Twitter twitterInstance;
+	static public String injectedByClass;
+	public static boolean testCase = false;
+    public static int emotion = 0;
+    static public Application testApp;
+	
+	 @Inject
+	 public TwitterObject (TwitterApi twitterApiInstance) {
 
-    public static Twitter getInstance() {
+		 twitterInstance=twitterApiInstance.getTwitterInstance();
+		 injectedByClass=twitterApiInstance.getClass().getName();
+	 }	
+      
+      public Twitter getInstance() {
 
-        if (!testCase) {
-            if (singletonTwitterInstance == null) {
-                ConfigurationBuilder cb = new ConfigurationBuilder();
-                cb.setDebugEnabled(true).setOAuthConsumerKey("uvZYPifCuMDmDLhGzryVaH9sA")
-                        .setOAuthConsumerSecret("G01gHXhUerHAevCjhR0U1iOlm5VNmxC5cGRnldvHscVFcMfkvQ")
-                        .setOAuthAccessToken("969353476450017280-r7gPo5QAT8svSDiCBoB0jSKu1f3Oa8P")
-                        .setOAuthAccessTokenSecret("TmapsealCXor82pige4FwRZ16tqKollMbBb6AieVcKVrJ");
-                TwitterFactory tf = new TwitterFactory(cb.build());
-                singletonTwitterInstance = tf.getInstance();
-            }
-            return singletonTwitterInstance;
-        } else {
-            if (emotion == 1)
-                return new PseudoTwitterHappy();
-            else if (emotion == -1)
-                return new PseudoTwitterSad();
-            else
-                return new PseudoTwitterNeutral();
-        }
-    }
+          if (!testCase) {
+               return twitterInstance;
+          } 
+          else {
+              if (emotion == 1)
+              {
+            	  		testApp= new GuiceApplicationBuilder()
+              			.overrides(bind(TwitterApi.class).to(PseudoTwitterHappy.class))
+            			.build();
+            	  
+            	  TwitterApi testTwitter = testApp.injector().instanceOf(TwitterApi.class);
+            	  twitterInstance=testTwitter.getTwitterInstance();
+				  injectedByClass=testTwitter.getClass().getName();
+				  System.out.println(injectedByClass);
+            	  
+            	  
+              }
+                 
+              else if (emotion == -1)
+                  {
+            	  
+            	  			 testApp= new GuiceApplicationBuilder()
+                			            .overrides(bind(TwitterApi.class).to(PseudoTwitterSad.class))
+                			            .build();
+              	  
+            	  			TwitterApi testTwitter = testApp.injector().instanceOf(TwitterApi.class);
+            	  			twitterInstance=testTwitter.getTwitterInstance();
+					  		injectedByClass=testTwitter.getClass().getName();
+					  		
+            	  			
+            	  				
+            	  
+            	   
+            	   
+                  }
+              else if (emotion==2){
+            	  
+            	        testApp= new GuiceApplicationBuilder()
+  			            .overrides(bind(TwitterApi.class).to(PseudoTwitterNeutral.class))
+  			            .build();
+	  
+	  			TwitterApi testTwitter = testApp.injector().instanceOf(TwitterApi.class);
+	  			twitterInstance=testTwitter.getTwitterInstance();
+	  			injectedByClass=testTwitter.getClass().getName();
+	  			
+	  			
+            	  
+            	  
+              }
+              
+              return twitterInstance;
+                  
+          }
+      }
 }
