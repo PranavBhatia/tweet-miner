@@ -83,6 +83,7 @@ public class HomeController extends Controller {
      * @author kritika
      * An action that returns a HTML page with the profile of the tweet owner
      */
+
     public CompletionStage<Result> getUserProfile(String username) throws Exception {
         return TweetsService.getUser(username)
                 .thenCombine(TweetsService.getUserTweets(username), (profile, tweetsList) -> ok(userProfile.render(profile, tweetsList)));
