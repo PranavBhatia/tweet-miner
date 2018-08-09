@@ -1,7 +1,11 @@
 @import twitter4j.User
 @import twitter4j.Status
-@import services.TwitterObject
-@(user: User, tweets: List[Status])
+@import Model.UserModel
+
+@*@(user: User, tweets: List[Status])*@
+
+@(user: UserModel)
+
 <html>
     <head>
         <title>My TweetMiner</title>
@@ -12,13 +16,13 @@
 
     </head>
     <body>
-        <h1>User Profile : @user.getName</h1>
+        <h1>User Profile : @user.getUser.getName</h1>
         <center>
             <div>
                 <table>
                     <tr id="content">
                         <td>
-                            <img src="@user.getBiggerProfileImageURLHttps" height="150 px" width="150 px">
+                            <img src="@user.getUser.getBiggerProfileImageURLHttps" height="150 px" width="150 px">
                         </td>
                     </tr>
                 </table>
@@ -28,7 +32,7 @@
                     <tr>
                         <th> <font color="white" size="5 px">Location:</font></th>
                         <td>
-                            <font color="white" size="5 px">@user.getLocation()</font>
+                            <font color="white" size="5 px">@user.getUser.getLocation()</font>
                         </td>
                     </tr>
                 </table>
@@ -38,7 +42,7 @@
                     <tr>
                         <th> <font color="white" size="5 px">Friends Count:</font></th>
                         <td>
-                            <font color="white" size="5 px">@user.getFriendsCount()</font>
+                            <font color="white" size="5 px">@user.getUser.getFriendsCount()</font>
                         </td>
                     </tr>
                 </table>
@@ -50,7 +54,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <font color="white" size="4 px">@user.getDescription()</font>
+                            <font color="white" size="4 px">@user.getUser.getDescription()</font>
                         </td>
                     </tr>
                 </table>
@@ -60,10 +64,10 @@
                     <tr>
                         <th><font color="white" size="5 px"><u>Tweets</u></font></th>
                     </tr>
-                            @for(index <- 1 until tweets.size+1) {
+                            @for(index <- 0 until user.getTweets.size) {
                                 <tr>
                                     <td><font color="white" size="4 px">@index. </font></td>
-                                    <td><font color="white" size="4 px">@tweets(index-1).getText()</font></td>
+                                    <td><font color="white" size="4 px">@user.getTweets()(index).getText()</font></td>
                                 </tr>
                             }
                 </table>

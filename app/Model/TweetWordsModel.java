@@ -46,7 +46,7 @@ public class TweetWordsModel {
 	 * @param tweetTexts arraylist containg tweet texts
 	 * @return map representing word-level statistics
 	 */
-	public static Map<String, Long> findWordLevelStatistic(List<String> tweetTexts) {
+	private static Map<String, Long> findWordLevelStatistic(List<String> tweetTexts) {
 		List <String> words = tweetTexts.stream()
 				.map(tweet -> tweet.split("\\s+"))
 				.flatMap(Arrays::stream)

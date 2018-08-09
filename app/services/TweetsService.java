@@ -2,10 +2,15 @@ package services;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.inject.Guice;
+
 
 import Model.SentimentCompute;
+import Model.UserModel;
+import modules.TwitterModule;
 import play.libs.Json;
 import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.Console;
 import java.util.ArrayList;
@@ -15,7 +20,12 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ExecutionException;
 
-public class TweetsService {
+import javax.inject.Inject;
+
+public class TweetsService  {
+	
+	@Inject TwitterApi twitterApi;
+
 	/**
 	 * @author v6
 	 * use the twitter api to retrieve tweets based on a keyword
@@ -25,14 +35,15 @@ public class TweetsService {
 	 * @throws InterruptedException
 	 * @throws ExecutionException
 	 */
-    public static CompletableFuture<ArrayNode> getTweets(String keyword, int limit) throws Exception{
-        CompletableFuture<ArrayNode> future = new CompletableFuture<>();
-        Twitter twitter = TwitterObject.getInstance();
+    public ArrayNode getTweets(String keyword, int limit) throws Exception{
+    			
+    	Twitter twitterInstance = twitterApi.getTwitterInstance();
+    	
         Query query = new Query(keyword);
         query.setCount(limit);
 
         QueryResult result = null;
-        result = twitter.search(query);
+        result = twitterInstance.search(query);
         List<Status> tweets = result.getTweets();
   
         ArrayNode tweetsArrayNode = Json.newArray();
@@ -59,8 +70,7 @@ public class TweetsService {
             tempTweetsObjectNode.put("getHashtags", s.toString());
             tweetsArrayNode.add(tempTweetsObjectNode);
         });
-        future.complete(tweetsArrayNode);
-        return future;
+        return tweetsArrayNode;
     }
 
     /**
@@ -69,17 +79,16 @@ public class TweetsService {
      * @param hashtag tweets will be based on hashtags
      * @return future of a list of json objects containing tweets
      */
-
-    public static CompletableFuture<List<Status>> getHashtagTweets(String hashtag) throws Exception{
+    
+    public List<Status> getHashtagTweets(String hashtag) throws Exception{
         CompletableFuture<List<Status>> future = new CompletableFuture<>();
-        Twitter twitter = TwitterObject.getInstance();
+        Twitter twitter = twitterApi.getTwitterInstance();
         Query query = new Query(hashtag);
         query.setCount(10);
         QueryResult result = null;
         result = twitter.search(query);
         List<Status> tweets = result.getTweets();
-        future.complete(tweets);
-        return future;
+        return tweets;
     }
 
     /**
@@ -89,11 +98,11 @@ public class TweetsService {
      * @param longitude
      * @return
      */
-    public static CompletableFuture<List<Status>> getLocationTweets(String latitude, String longitude) throws Exception{
+    
+    public List<Status> getLocationTweets(String latitude, String longitude) throws Exception{
 
         //For testing -> http://localhost:9000/getLocation/28.56929189/%2077.31774961
-        CompletableFuture<List<Status>> future = new CompletableFuture<>();
-        Twitter twitter = TwitterObject.getInstance();
+        Twitter twitter = twitterApi.getTwitterInstance();
         ArrayList<Status> tweets = new ArrayList<>();
         if (!latitude.equals("0")){
             double lat = Double.parseDouble(latitude);
@@ -106,10 +115,9 @@ public class TweetsService {
             result = twitter.search(query);
             tweets = (ArrayList<Status>) result.getTweets();
         }
-        future.complete(tweets);
-        return future;
+        return tweets;
     }
-
+	
     /**
      * Gets future of user objects
      * @author Kritika
@@ -117,15 +125,14 @@ public class TweetsService {
      * @return future of user object 
      */
 
-    public static CompletableFuture<User> getUser(String username) throws Exception{
-        CompletableFuture<User> future = new CompletableFuture<>();
-        Twitter twitter = TwitterObject.getInstance();
-        User user=null;
-        user = twitter.showUser(username);
-        future.complete(user);
-        System.out.println("User = " + user);
-        return future;
-    }
+    public UserModel getUser(String username) throws Exception{
+        Twitter twitter = twitterApi.getTwitterInstance();
+        User user=twitter.showUser(username);
+        List<Status> userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));
+
+        UserModel userModel = new UserModel(user, userTweets);
+        return userModel;
+    } 
 
     /**
      * @author kritika
@@ -133,12 +140,12 @@ public class TweetsService {
      * @param username tweets retrieved from user with this username
      * @return a list of status objects storing tweets
      */
-    public static List<Status> getUserTweets(String username) {
+    public List<Status> getUserTweets(String username) {
 
-        Twitter twitter = TwitterObject.getInstance();
+        Twitter twitter = twitterApi.getTwitterInstance();
         ArrayList<Status> userTweets = new ArrayList<>();
         try {
             userTweets = (ArrayList<Status>) twitter.getUserTimeline(username,new Paging(1,10));}catch (Exception e){}
         return userTweets;
-    }
+    } 
 }

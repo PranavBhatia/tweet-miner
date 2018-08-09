@@ -935,6 +935,7 @@ public class PseudoTwitterHappy implements Twitter {
     @Override
     public SavedSearch destroySavedSearch(long id) throws TwitterException {
         return null;
+ 
     }
 
     @Override

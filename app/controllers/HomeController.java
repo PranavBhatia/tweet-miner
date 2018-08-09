@@ -9,7 +9,6 @@ import play.mvc.*;
 
 
 import services.TweetsService;
-import services.TwitterObject;
 import twitter4j.*;
 import views.html.*;
 
@@ -48,21 +47,22 @@ public class HomeController extends Controller {
      * @return 
      * @throws Exception
      */
+    /*
     public CompletionStage<Result> search(String keywords) throws Exception{
     	 return TweetsService.getTweets(keywords,100)
          		.thenCompose( (f) -> CompletableFuture.supplyAsync( () -> SentimentCompute.smileyLevelStatistic(f) ))     
          		.thenApplyAsync( (tweets) -> ok(tweets));
-    }
+    }*/
 
     /**
      * @author shireen
      * An action that renders a HTML page with tweets for a hashtag query
      * @param hashtag the hashtag with which the query is run
      * @return a Future of a result to be rendered to the HTML page
-     */
+     *//*
     public CompletionStage<Result> getHashtags(String hashtag) throws Exception{
         return TweetsService.getHashtagTweets(hashtag).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Hashtag Tweets")));
-    }
+    }*/
 
     /**
      * @author Pranav Bhatia
@@ -70,10 +70,10 @@ public class HomeController extends Controller {
      * @param latitude  geolocation attribute of the owner of the tweet
      * @param longitude geolocation attribute of the owner of the tweet
      * @return a Future of a result to be rendered to the HTML page
-     */
+     *//*
     public CompletionStage<Result> getLocation(String latitude, String longitude) throws Exception{
         return TweetsService.getLocationTweets(latitude, longitude).thenApplyAsync(tweets -> ok(locationTweets.render(tweets, "Location Tweets")));
-    }
+    }*/
 
     /**
      * @author kritika
@@ -81,22 +81,23 @@ public class HomeController extends Controller {
      * @param username the name of the user whose profile is retrieved
      * @return  a Future of a result to be rendered to the HTML page
      * @throws TwitterException
-     */
+     *//*
     public CompletionStage<Result> getUserProfile(String username) throws Exception{
         return TweetsService.getUser(username).thenApplyAsync(tweetuser -> ok(userProfile.render(tweetuser, TweetsService.getUserTweets(username))));
     }
-
+*/
     /**
      * @author nileesha
      * An action that renders a HTML page with word level statistics for an individual query
      * @param query search terms for which word level statistics are generated
      * @return a future of a result to be rendered to an HTML page
      * @throws Exception
-     */
+     *//*
     public CompletableFuture<Result> getTweetWords(String query) throws Exception {
     	return TweetsService.getTweets(query, 100)
     	    	.thenCompose(tweetsList -> CompletableFuture.supplyAsync(
     	    						()->TweetWordsModel.tweetWords(tweetsList))
     	    			    		.thenApply(tweets->ok(tweetWords.render(tweets, query))));
-    }
+    }*/
+    
 }
