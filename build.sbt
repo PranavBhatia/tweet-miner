@@ -31,5 +31,7 @@ javaOptions in Test ++= Seq(
   "-XX:MaxPermSize=384M"
 )
 
+libraryDependencies += "com.google.inject" % "guice" % "3.0"
+
 // Javadoc
 sources in (Compile, doc) ~= (_ filter (_.getName endsWith ".java"))

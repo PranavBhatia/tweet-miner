@@ -16,7 +16,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class PseudoTwitterNeutral implements Twitter {
+import services.TwitterApi;
+
+public class PseudoTwitterNeutral implements TwitterApi,Twitter {
+	
+	
+    private static Twitter twitterInstance;
+	
+	@Override
+	public Twitter getTwitterInstance() {
+		if (twitterInstance==null)
+		{ twitterInstance=new PseudoTwitterNeutral(); }
+		return twitterInstance;
+	}
+	
+	
 
     @Override
     public void setOAuthConsumer(String consumerKey, String consumerSecret) {

@@ -1,0 +1,49 @@
+@(map: Map[String, Long])(query:String)
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<style>
+			table, th, td {
+				border: 2px solid black;
+				border-collapse: collapse;
+			}
+			th, td {
+				padding: 5px;
+				text-align: left;
+			}
+			body{
+				color: white;
+			}
+			table{
+				margin: auto;
+				font-size: 19px;
+			}
+			h2{
+				text-indent: 6%;
+			}
+		</style>
+		<link rel="stylesheet" href="@routes.Assets.at("stylesheets/style.css")">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link href="https://fonts.googleapis.com/css?family=Chela+One" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<title>Tweet Miner</title>
+	</head>
+	<body>
+		<h1>TWEET WORDS </h1>
+		<h2>Word level statistics for search term(s) "@query" based on 100 latest tweets:</h2>
+
+			<table style="width:60%">
+				<tr>
+					<th>Word</th>
+					<th >Frequency</th>
+				</tr>
+				@for((key, value) <- map){
+					<tr>
+						<td>@key</td>
+						<td>@value</td>
+					</tr>
+				}
+			</table>
+
+	</body>
+</html>
