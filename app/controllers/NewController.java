@@ -46,28 +46,28 @@ public class NewController extends Controller{
 	    }
 	    
 	public CompletionStage<Result> search(String keyword){
-		return ask(twitterActor, new FindTweets(keyword), 1000)
+		return ask(twitterActor, new FindTweets(keyword), 5000)
 					.thenApply(tweets -> ok((ArrayNode) tweets)); //ask sends a message asynchronously and returns a Future 
 																  //representing a possible result
 	}
 	
 	public CompletionStage<Result> getHashtags(String hashtag){
-		return ask(hashtagActor, new HashTagTweets(hashtag), 1000)
+		return ask(hashtagActor, new HashTagTweets(hashtag), 5000)
 				.thenApply(hashtagTweets -> ok(locationTweets.render((List<Status>)hashtagTweets, "Hashtag Tweets")));
 	}
 	
 	public CompletionStage<Result> getLocation(String latitude, String longitude){
-        return ask(locationActor, new LocationTweets(latitude, longitude), 1000)
+        return ask(locationActor, new LocationTweets(latitude, longitude), 5000)
         		.thenApply(tweets -> ok(locationTweets.render((List<Status>)tweets, "Location Tweets")));
     }
 	
 	 public CompletionStage<Result> getUserProfile(String username) throws Exception{
-	     return ask(userActor, new UserProfile(username), 1000)
+	     return ask(userActor, new UserProfile(username), 5000)
 	    		 .thenApply(tweetUser -> ok(user.render((UserModel)tweetUser)));
 	 }
 	 
 	 public CompletionStage<Result> getTweetWords (String query){
-		 return ask(twitterActor, new FindTweetWords(query), 1000)
+		 return ask(twitterActor, new FindTweetWords(query), 5000)
 				 .thenApply(tweetWordCount -> ok(tweetWords.render((Map<String, Long>)tweetWordCount, query)));
 	 }
 }
