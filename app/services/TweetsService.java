@@ -157,7 +157,7 @@ public class TweetsService {
     public static CompletableFuture<List<Status>> getUserTweets(String username) {
 
     	  CompletableFuture<List<Status>> future = new CompletableFuture<>();
-        Twitter twitter =twitserv.getInstance();
+        Twitter twitter =twitserv.getTwitterInstance();
 
         System.out.println("getUserTweets");
         System.out.println("twitserv: "+twitserv.hashCode());
