@@ -31,6 +31,8 @@ javaOptions in Test ++= Seq(
   "-XX:MaxPermSize=384M"
 )
 
+libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.14" % Test
+
 libraryDependencies += "com.google.inject" % "guice" % "3.0"
 
 // Javadoc
