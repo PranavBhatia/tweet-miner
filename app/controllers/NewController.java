@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -15,10 +16,14 @@ import actors.HashtagActor.HashTagTweets;
 import actors.LocationActor;
 import actors.LocationActor.LocationTweets;
 import actors.UserActor;
+import actors.SocketActor;
 import actors.UserActor.UserProfile;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+/*import akka.event.Logging;
+import akka.event.LoggingAdapter;*/
 import play.mvc.Controller;
+import play.libs.F;
 import play.mvc.*;
 import static akka.pattern.PatternsCS.ask;
 import views.html.*;
@@ -26,12 +31,30 @@ import java.util.List;
 import twitter4j.Status;
 import actors.TwitterActor.FindTweetWords;
 import java.util.Map;
+import org.slf4j.Logger;
+
+import play.libs.streams.ActorFlow;
+
+import play.libs.F;
+import akka.actor.*;
+import akka.stream.*;
+import play.mvc.*;
+import javax.inject.Singleton;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
+
+import akka.actor.AbstractActor;
 
 
 public class NewController extends Controller{
 
+	//private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 	final ActorRef twitterActor, sentimentActor, tweetWordsActor, hashtagActor, locationActor, userActor ;
-	
+
+	@Inject private ActorSystem actorSystem;
+    @Inject private Materializer materializer; 
+    
 	@Inject public NewController(ActorSystem system) {
 		sentimentActor = system.actorOf(SentimentActor.props());
 		tweetWordsActor = system.actorOf(TweetWordsActor.props());
@@ -70,4 +93,38 @@ public class NewController extends Controller{
 		 return ask(twitterActor, new FindTweetWords(query), 5000)
 				 .thenApply(tweetWordCount -> ok(tweetWords.render((Map<String, Long>)tweetWordCount, query)));
 	 }
+	 
+	 public WebSocket ws() {
+		 	System.out.println("testing ws...");
+	        return WebSocket.Text.acceptOrResult(request -> {
+	            if (sameOriginCheck(request)) {
+	                return CompletableFuture.completedFuture(
+	                        F.Either.Right(ActorFlow.actorRef(SocketActor::props,
+	                                actorSystem, materializer)));
+	            } else {
+	                return CompletableFuture.completedFuture(F.Either.Left(forbidden()));
+	            }
+	        });
+	    }
+	 private boolean sameOriginCheck(Http.RequestHeader rh) {
+	        final Optional<String> origin = rh.header("Origin");
+
+	        if (! origin.isPresent()) {
+	            //logger.error("originCheck: rejecting request because no Origin header found");
+	        	System.out.println("originCheck: rejecting request because no Origin header found");
+	            return false;
+	        } else if (originMatches(origin.get())) {
+	            //logger.debug("originCheck: originValue = " + origin);
+	        	System.out.println("originCheck: originValue = " + origin);
+	            return true;
+	        } else {
+	            //logger.error("originCheck: rejecting request because Origin header value " + origin + " is not in the same origin");
+	        	System.out.println("originCheck: rejecting request because Origin header value " + origin + " is not in the same origin");
+	        	return false;
+	        }
+	    }
+
+	    private boolean originMatches(String origin) {
+	        return origin.contains("localhost:9000") || origin.contains("localhost:19001");
+	    }
 }
