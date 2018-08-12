@@ -49,20 +49,21 @@
 					var ws = new WebSocket('ws://localhost:9000/ws');
 
 					console.log("Testing "+input);
-
+					var keywordDiv="<div id='"+input+"'></div>";
+					console.log(keywordDiv);
 					ws.onopen = function() {
 						ws.send(input);
 					};
 
 					ws.onmessage = function (msg){
 						var data = JSON.parse(msg.data);
+						$('#'+ data[0].keyword ).empty();
 						var number_of_rows = data.length;
-						// var table_body = '< id="example"><thead><tr><th>Sr. No.</th><th>Tweet</th><th>User Name</th><th>User Handle Name</th><th>Tweet Location</th><th>Hash Tag</th></tr></thead><tbody>';
 						var table_row='';
 						table_row+='<tr>';
 						table_row+='<td></td>';
 						table_row+='<td>';
-						table_row+='<center><b><font color="#7cfc00">Search Keyword = <a href ="http://localhost:9000/tweetWords/'+input+'" target="_blank">'+input+'';
+						table_row+='<center><b><font color="#7cfc00">Search Keyword = <a href ="http://localhost:9000/tweetWords/'+data[0].keyword+'" target="_blank">'+data[0].keyword+'';
 						table_row+='</a>';
                         table_row+='; Sentiment '+data[0].sentiments+'</center></font></b>';
 						table_row+='</td>';
@@ -72,6 +73,7 @@
 							rowCount = $('table#tweetTable tr:last').index();
 						else
 							rowCount = $('table#tweetTable tr:last').index()+1;
+						$('#tweetTable').remove('#'+ input );
 						for(j=0; j<number_of_rows && j<10; j++){
 							var location = data[j].userLocation;
 							table_row+='<tr>';
@@ -110,10 +112,14 @@
 							table_row +='</tr>';
 						}
 						//table_body+='</tbody></table>';
-						$('#tweetTable tr:last').after(table_row);
+						//$('#tweetTable tr:last').after(table_row);
+						//$('#'+ input ).append(table_row);
+						$('#'+ data[0].keyword ).append(table_row);
 						flag=true;
 						// $('#content').html(table_body);
 					};
+
+					$('#tweetTable').append(keywordDiv);
 				});
 		</script>
 	</body>

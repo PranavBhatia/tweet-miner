@@ -59,6 +59,7 @@ public class TwitterService {
             tempTweetsObjectNode.put("userName", tweet.getUser().getName());
             tempTweetsObjectNode.put("userScreenName", tweet.getUser().getScreenName());
             tempTweetsObjectNode.put("userLocation", tweet.getUser().getLocation());
+            tempTweetsObjectNode.put("keyword", keyword);
             
             if(tweet.getGeoLocation()!=null) {
                 tempTweetsObjectNode.put("geolocationLatitude", tweet.getGeoLocation().getLatitude());
