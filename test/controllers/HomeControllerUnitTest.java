@@ -1,5 +1,6 @@
 package controllers;
 
+import akka.actor.ActorSystem;
 import org.junit.*;
 import services.TweetsService;
 
@@ -12,7 +13,8 @@ import static org.junit.Assert.*;
 
 public class HomeControllerUnitTest {
 
-    public static HomeController controller;
+    public static NewController controller;
+    public static ActorSystem system;
 
     /**
      * @author pranav
@@ -23,7 +25,8 @@ public class HomeControllerUnitTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-        controller = new HomeController();
+        system = ActorSystem.create();
+        controller = new NewController(system);
     }
 
     /**
