@@ -48,10 +48,10 @@ public class SentimentCompute {
 	
 	public static String computeEmoji(Map<String, Long> sentiments,int threshold)
 	{
-		//System.out.println(":-)"+" "+sentiments.get(":-)"));
-		//System.out.println(":-(" +" "+sentiments.get(":-("));
-		//System.out.println(":-|"+" "+sentiments.get(":-|"));
-		//System.out.println("70% of tot:"+  threshold);
+		  System.out.println(":-)"+" "+sentiments.get(":-)"));
+		  System.out.println(":-(" +" "+sentiments.get(":-("));
+		  System.out.println(":-|"+" "+sentiments.get(":-|"));
+		  System.out.println("70% of tot:"+  threshold);
 		
 		return (  sentiments.get(":-)")!=null && sentiments.get(":-)") > threshold   ) ? ":-)" : 
 			
@@ -81,7 +81,7 @@ public class SentimentCompute {
 		  		.collect(Collectors.groupingBy(SentimentCompute::getTweetEmoji,Collectors.counting()));
 	     
 	    String emoji=SentimentCompute.computeEmoji(sentimentCounter, (  (int)(tweetHolder.size()  *  0.70)  ) );
-	     	
+	    System.out.println(emoji);	
 	     ObjectNode tempTweetsObjectNode = Json.newObject();
 	     tempTweetsObjectNode=(ObjectNode) tweetsList.get(0);
 	     tempTweetsObjectNode.put("sentiments", emoji);

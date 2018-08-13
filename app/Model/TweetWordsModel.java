@@ -47,22 +47,14 @@ public class TweetWordsModel {
 	 * @return map representing word-level statistics
 	 */
 	public static Map<String, Long> findWordLevelStatistic(List<String> tweetTexts) {
-		List <String> words = tweetTexts.stream()
+		return tweetTexts.stream()
 				.map(tweet -> tweet.split("\\s+"))
 				.flatMap(Arrays::stream)
 				.map(tweet-> tweet.toLowerCase())
-				//.filter(tweet->tweet.matches(""))
-				.collect(Collectors.toList());
-
-		Map<String, Long> result =
-				words.stream()
-						.map(String::toLowerCase)
-						.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
 						.entrySet().stream()
 						.sorted(Map.Entry.<String, Long> comparingByValue(reverseOrder()).thenComparing(Map.Entry.comparingByKey()))
 						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
-
-		return result;
 	}
 
 

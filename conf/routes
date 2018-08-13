@@ -21,7 +21,7 @@ GET     /public/*file               controllers.Assets.at(path="/public", file)
 
 #GET		/tweetWords/:query			controllers.HomeController.getTweetWords(query:String)
 
-GET		/search/:keywords			controllers.NewController.search(keywords: String)
+#GET		/search/:keywords			controllers.NewController.search(keywords: String)
 
 GET		/getHashtags/:hashtag		controllers.NewController.getHashtags(hashtag: String)
 

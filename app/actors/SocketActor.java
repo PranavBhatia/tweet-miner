@@ -1,10 +1,13 @@
 package actors;
 
-import java.util.List;
+import static akka.pattern.PatternsCS.ask;
 
+import java.util.List;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
+import actors.SentimentActor.ComputeSentiment;
+import Model.SentimentCompute;
+import controllers.NewController;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -15,7 +18,6 @@ import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import services.TwitterService;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -32,12 +34,26 @@ public class SocketActor extends AbstractActor {
 		this.socketOut = socketOut;
 	}
 	
+	static public class TweetsWithSentiments {
+		
+		private ArrayNode tweetsArrayNode;
+		public TweetsWithSentiments (ArrayNode tweetsArrayNode) {
+			this.tweetsArrayNode=tweetsArrayNode;
+			
+		}
+		
+	}
+	
 	@Override
 	public Receive createReceive() {
 		return receiveBuilder()
 				.match(String.class, keyword -> {
-					System.out.println("Reached socket actor 1");
+					
 					fetchTweets(keyword);
+				})
+				.match(TweetsWithSentiments.class, tws -> {
+					socketOut.tell(tws.tweetsArrayNode.toString(), self());
+					
 				})
 				.build();
 	}
@@ -48,19 +64,22 @@ public class SocketActor extends AbstractActor {
 			@Override
 			public void run() {
 
-				ArrayNode tweetsArrayNode = null;
+				
 				try {
-					System.out.println("Reached socket actor 2"+keyword);
-					tweetsArrayNode = TwitterService.getTweets(keyword, 10);
-					System.out.println(tweetsArrayNode.get(0).get("tweetsText").textValue());
+										
+					System.out.println("Reached socket actor "+keyword);
+					ArrayNode tweetsList = TwitterService.getTweets(keyword, 100);
+					NewController.sentimentActor.tell(new ComputeSentiment(tweetsList), self());
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
-				socketOut.tell(tweetsArrayNode.toString(), self());
+				
 			}
 		};
 		 ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-		 executor.scheduleAtFixedRate(tweetJob, 0, 30, TimeUnit.SECONDS);
+		 executor.scheduleAtFixedRate(tweetJob, 0, 10, TimeUnit.SECONDS);
 	}
 }
