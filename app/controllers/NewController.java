@@ -9,8 +9,6 @@ import com.google.inject.Inject;
 import Model.UserModel;
 import actors.SentimentActor;
 import actors.TweetWordsActor;
-import actors.TwitterActor;
-import actors.TwitterActor.FindTweets;
 import actors.HashtagActor;
 import actors.HashtagActor.HashTagTweets;
 import actors.LocationActor;
@@ -29,7 +27,6 @@ import static akka.pattern.PatternsCS.ask;
 import views.html.*;
 import java.util.List;
 import twitter4j.Status;
-import actors.TwitterActor.FindTweetWords;
 import java.util.Map;
 import org.slf4j.Logger;
 
@@ -43,6 +40,8 @@ import javax.inject.Singleton;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import actors.TweetWordsActor.FindTweetWords;
+
 
 import akka.actor.AbstractActor;
 
@@ -50,7 +49,7 @@ import akka.actor.AbstractActor;
 public class NewController extends Controller{
 
 	//private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
-	final ActorRef twitterActor, sentimentActor, tweetWordsActor, hashtagActor, locationActor, userActor ;
+	public static ActorRef sentimentActor, tweetWordsActor, hashtagActor, locationActor, userActor ;
 
 	@Inject private ActorSystem actorSystem;
     @Inject private Materializer materializer; 
@@ -58,7 +57,6 @@ public class NewController extends Controller{
 	@Inject public NewController(ActorSystem system) {
 		sentimentActor = system.actorOf(SentimentActor.props());
 		tweetWordsActor = system.actorOf(TweetWordsActor.props());
-		twitterActor = system.actorOf(TwitterActor.props(sentimentActor, tweetWordsActor));
 		hashtagActor = system.actorOf(HashtagActor.props());
 		locationActor = system.actorOf(LocationActor.props());
 		userActor = system.actorOf(UserActor.props());
@@ -67,12 +65,12 @@ public class NewController extends Controller{
 	 public Result index() {
 	        return ok(index.render("Welcome to TweetMiner"));
 	    }
-	    
+	 /*   
 	public CompletionStage<Result> search(String keyword){
 		return ask(twitterActor, new FindTweets(keyword), 5000)
 					.thenApply(tweets -> ok((ArrayNode) tweets)); //ask sends a message asynchronously and returns a Future 
 																  //representing a possible result
-	}
+	}*/
 	
 	public CompletionStage<Result> getHashtags(String hashtag){
 		return ask(hashtagActor, new HashTagTweets(hashtag), 5000)
@@ -90,7 +88,7 @@ public class NewController extends Controller{
 	 }
 	 
 	 public CompletionStage<Result> getTweetWords (String query){
-		 return ask(twitterActor, new FindTweetWords(query), 5000)
+		 return ask(tweetWordsActor, new FindTweetWords(query), 5000)
 				 .thenApply(tweetWordCount -> ok(tweetWords.render((Map<String, Long>)tweetWordCount, query)));
 	 }
 	 

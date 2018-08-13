@@ -12,26 +12,27 @@ import java.util.List;
 import twitter4j.User;
 import twitter4j.Status;
 import Model.TweetWordsModel;
+import services.TwitterService;
 
 public class TweetWordsActor extends AbstractActor{
 	public static Props props() {
 		return Props.create(TweetWordsActor.class);
 	}
 	
-	static public class TweetWords{
+	static public class FindTweetWords{
 		public final String query;
-		public final ArrayNode tweetList;
 		
-		public TweetWords(String query, ArrayNode tweetList) {
+		public FindTweetWords(String query) {
 			this.query = query;
-			this.tweetList = tweetList;
 		}
 	}
+	
 	@Override
 	public Receive createReceive() {
 		return receiveBuilder()
-				.match(TweetWords.class, tw -> {
-					sender().tell(TweetWordsModel.tweetWords(tw.tweetList), ActorRef.noSender());
+				.match(FindTweetWords.class, ftw -> {
+					ArrayNode tweetsList = TwitterService.getTweets(ftw.query, 100);
+					sender().tell(TweetWordsModel.tweetWords(tweetsList), ActorRef.noSender());
 				})
 				.build();
 	}

@@ -1,8 +1,9 @@
 package actors;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
-
+import actors.SocketActor.TweetsWithSentiments;
 import akka.actor.AbstractActor;
+import akka.actor.ActorRef;
 import akka.actor.Props;
 import Model.SentimentCompute;
 
@@ -20,11 +21,12 @@ public class SentimentActor extends AbstractActor {
 		}
 	}
 	
+	
 	@Override
 	public Receive createReceive() {
 		return receiveBuilder()
-				.match(ComputeSentiment.class, x -> {
-					sender().tell(SentimentCompute.smileyLevelStatistic(x.tweetsList), self());
+				.match(ComputeSentiment.class, x -> {					
+					sender().tell(new TweetsWithSentiments(SentimentCompute.smileyLevelStatistic(x.tweetsList)), ActorRef.noSender());
 				})
 				.build();
 	}
