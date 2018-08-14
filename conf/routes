@@ -19,6 +19,5 @@ GET		/getUserProfile/:username		controllers.NewController.getUserProfile(usernam
 
 GET		/tweetWords/:query			controllers.NewController.getTweetWords(query:String)
 
-
 GET 	/ws						controllers.NewController.ws()
 

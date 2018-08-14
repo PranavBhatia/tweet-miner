@@ -2,6 +2,7 @@ package controllers;
 
 import akka.actor.ActorSystem;
 import org.junit.*;
+import services.TwitterService;
 import services.*;
 import static org.junit.Assert.*;
 
@@ -97,6 +98,17 @@ public class NewControllerTest {
     @Test
     public void getUserProfile() throws Exception{
         assertNotNull(controller.getUserProfile("Rodolfo"));
+    }
+
+    /**
+     * @author pranav
+     * Tests the method that returns the latest 10 tweets of user
+     * and asserts that the result of the method is not null
+     * @throws Exception
+     */
+    @Test
+    public void getUserTweets() throws Exception{
+        assertNotNull(TwitterService.getUser("dermicool"));
     }
 
     /**

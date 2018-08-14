@@ -1,6 +1,9 @@
 package services;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import Model.UserModel;
+
 import org.junit.*;
 import play.test.Helpers;
 import twitter4j.Status;
@@ -58,7 +61,6 @@ public class TwitterServiceTest {
      */
     @Test
     public void testGetTweets_checkUser() throws Exception{
-
         ArrayNode testNodeFuture = TwitterService.getTweets("dermicool", 10);
         ArrayNode testNode = testNodeFuture;
         assertEquals(testNode.get(0).get("userName").asText(), "Rodolfo");
@@ -72,7 +74,6 @@ public class TwitterServiceTest {
      */
     @Test
     public void testGetTweets_checkSize() throws Exception{
-
         ArrayNode testNodeFuture = TwitterService.getTweets("dermicool", 10);
         ArrayNode testNode = testNodeFuture;
         assertTrue(testNode.size() > 0);
@@ -86,7 +87,6 @@ public class TwitterServiceTest {
      */
     @Test
     public void getHashtagTweets() throws Exception{
-
         List<Status> listCompletableFuture = TwitterService.getHashtagTweets("dermicool");
         ArrayList<Status> statusArrayList = (ArrayList<Status>) listCompletableFuture;
         assertTrue(statusArrayList.size() > 0);
@@ -100,18 +100,10 @@ public class TwitterServiceTest {
      */
     @Test
     public void testGetLocationTweets_locationNull() throws Exception{
-
         List<Status> listCompletableFuture = TwitterService.getLocationTweets("45.5363999", "-73.5614825");
         assertTrue(listCompletableFuture.size() > 0);
     }
 
-   /* @Test
-    public void testGetLocationTweets_locationPresent() throws Exception{
-        TwitterObject.emotion = 0;
-        CompletableFuture<List<Status>> listCompletableFuture = TwitterService.getLocationTweets("45.5363999", "-73.5614825");
-        assertTrue(listCompletableFuture.get().size() > 0);
-    }
-    */
 
     /**
      * @author pranav
@@ -120,7 +112,6 @@ public class TwitterServiceTest {
      */
     @Test
     public void getUser() throws Exception{
-
         UserModel testNodeFuture = TwitterService.getUser("Rodolfo");
         System.out.println(testNodeFuture.getUser());
     }
