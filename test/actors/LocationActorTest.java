@@ -14,7 +14,8 @@ import akka.testkit.javadsl.TestKit;
  * @author pranav
  *
  */
-public class LocationActorUnitTest {
+
+public class LocationActorTest {
 
     public static ActorSystem system;
     public static ActorRef locationActor;

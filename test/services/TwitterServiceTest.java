@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import Model.*;
+
 import static org.junit.Assert.*;
 
 /**
@@ -23,7 +25,7 @@ import static org.junit.Assert.*;
  *  the twitter api to retrieve tweets based on a keyword
  */
 
-public class TweetsServiceUnitTest {
+public class TwitterServiceTest {
     /**
      * @author pranav
      *  Creates the environment for testing the Tweets Service Class
@@ -32,9 +34,9 @@ public class TweetsServiceUnitTest {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-    	
-       TwitterObject.testCase = true;
-       TwitterObject.emotion = 1;
+
+        TwitterObject.testCase = true;
+        TwitterObject.emotion = 1;
     }
 
     /**
@@ -59,8 +61,8 @@ public class TweetsServiceUnitTest {
      */
     @Test
     public void testGetTweets_checkUser() throws Exception{
-    	
-        ArrayNode testNode = TwitterService.getTweets("dermicool", 10);
+        ArrayNode testNodeFuture = TwitterService.getTweets("dermicool", 10);
+        ArrayNode testNode = testNodeFuture;
         assertEquals(testNode.get(0).get("userName").asText(), "Rodolfo");
     }
 
@@ -72,8 +74,8 @@ public class TweetsServiceUnitTest {
      */
     @Test
     public void testGetTweets_checkSize() throws Exception{
-    	
-        ArrayNode testNode = TwitterService.getTweets("dermicool", 10);
+        ArrayNode testNodeFuture = TwitterService.getTweets("dermicool", 10);
+        ArrayNode testNode = testNodeFuture;
         assertTrue(testNode.size() > 0);
     }
 
@@ -85,8 +87,8 @@ public class TweetsServiceUnitTest {
      */
     @Test
     public void getHashtagTweets() throws Exception{
-    	
-        List<Status> statusArrayList = TwitterService.getHashtagTweets("dermicool");
+        List<Status> listCompletableFuture = TwitterService.getHashtagTweets("dermicool");
+        ArrayList<Status> statusArrayList = (ArrayList<Status>) listCompletableFuture;
         assertTrue(statusArrayList.size() > 0);
     }
 
@@ -98,18 +100,10 @@ public class TweetsServiceUnitTest {
      */
     @Test
     public void testGetLocationTweets_locationNull() throws Exception{
-       
-        List<Status> list = TwitterService.getLocationTweets("45.5363999", "-73.5614825");
-        assertTrue(list.size() > 0);
+        List<Status> listCompletableFuture = TwitterService.getLocationTweets("45.5363999", "-73.5614825");
+        assertTrue(listCompletableFuture.size() > 0);
     }
 
-   /* @Test
-    public void testGetLocationTweets_locationPresent() throws Exception{
-        TwitterObject.emotion = 0;
-        CompletableFuture<List<Status>> listCompletableFuture = TweetsService.getLocationTweets("45.5363999", "-73.5614825");
-        assertTrue(listCompletableFuture.get().size() > 0);
-    }
-    */
 
     /**
      * @author pranav
@@ -118,9 +112,7 @@ public class TweetsServiceUnitTest {
      */
     @Test
     public void getUser() throws Exception{
-        
         UserModel testNodeFuture = TwitterService.getUser("Rodolfo");
-        assertNotNull(testNodeFuture);
-
+        System.out.println(testNodeFuture.getUser());
     }
 }

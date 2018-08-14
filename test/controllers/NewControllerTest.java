@@ -3,6 +3,7 @@ package controllers;
 import akka.actor.ActorSystem;
 import org.junit.*;
 import services.TwitterService;
+import services.*;
 import static org.junit.Assert.*;
 
 /**
@@ -10,7 +11,7 @@ import static org.junit.Assert.*;
  * handles the HTTP requests to the home page.
  */
 
-public class HomeControllerUnitTest {
+public class NewControllerTest {
 
     public static NewController controller;
     public static ActorSystem system;
@@ -26,6 +27,8 @@ public class HomeControllerUnitTest {
     public static void setUp() throws Exception {
         system = ActorSystem.create();
         controller = new NewController(system);
+        TwitterObject.testCase = true;
+        TwitterObject.emotion = 1;
     }
 
     /**
@@ -37,6 +40,8 @@ public class HomeControllerUnitTest {
     @AfterClass
     public static void tearDown() throws Exception {
         controller = null;
+        TwitterObject.testCase = false;
+        TwitterObject.emotion = 0;
     }
 
     /**
@@ -49,6 +54,17 @@ public class HomeControllerUnitTest {
         assertNotNull(controller.index());
     }
 
+    /**
+     * @author pranav
+     * Tests an action that returns a HTML page with data
+     * and does not returns null
+     * @throws Exception
+     */
+   /* @Test
+    public void search() throws Exception{
+        assertNotNull(controller.search("dermicool"));
+    }
+*/
     /**
      * @author pranav
      * Tests an action that renders a HTML page with tweets for a hashtag query

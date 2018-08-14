@@ -9,7 +9,6 @@ GET     /public/*file               controllers.Assets.at(path="/public", file)
 
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
-
 GET     /public/*file               controllers.Assets.at(path="/public", file)
 
 GET		/getHashtags/:hashtag		controllers.NewController.getHashtags(hashtag: String)
@@ -19,7 +18,6 @@ GET		/getLocation/:latitude/:longitude		controllers.NewController.getLocation(la
 GET		/getUserProfile/:username		controllers.NewController.getUserProfile(username:String)
 
 GET		/tweetWords/:query			controllers.NewController.getTweetWords(query:String)
-
 
 GET 	/ws						controllers.NewController.ws()
 
