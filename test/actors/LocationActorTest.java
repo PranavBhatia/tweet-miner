@@ -3,14 +3,13 @@ package actors;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-import controllers.HomeController;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import akka.testkit.javadsl.TestKit;
 
-public class LocationActorUnitTest {
+public class LocationActorTest {
 
     public static ActorSystem system;
     public static ActorRef locationActor;
