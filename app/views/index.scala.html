@@ -49,7 +49,7 @@
 					var ws = new WebSocket('ws://localhost:9000/ws');
 
 					console.log("Testing "+input);
-					var keywordDiv="<div id='"+input+"'></div>";
+					var keywordDiv="<div id='"+input.replace(/ /g,"_")+"'></div>";
 					console.log(keywordDiv);
 					ws.onopen = function() {
 						ws.send(input);
@@ -57,7 +57,16 @@
 
 					ws.onmessage = function (msg){
 						var data = JSON.parse(msg.data);
-						$('#'+ data[0].keyword ).empty();
+						
+						if (data[0].keyword.indexOf(':') > -1){
+  							input = "happy";
+  							data[0].keyword = "happy";
+  							console.log(data[0].keyword );
+  							keywordDiv="<div id='"+data[0].keyword+"'></div>";
+						}
+						
+						//$('#'+ data[0].keyword ).empty();
+						$('#'+data[0].keyword.replace(/ /g,"_")).empty();
 						var number_of_rows = data.length;
 						var table_row='';
 						table_row+='<tr>';
@@ -114,13 +123,15 @@
 						//table_body+='</tbody></table>';
 						//$('#tweetTable tr:last').after(table_row);
 						//$('#'+ input ).append(table_row);
-						$('#'+ data[0].keyword ).append(table_row);
+						$('#'+ data[0].keyword.replace(/ /g,"_")).append(table_row);
 						flag=true;
 						// $('#content').html(table_body);
 					};
 
 					$('#tweetTable').append(keywordDiv);
 				});
+				
+				
 		</script>
 	</body>
 </html>
