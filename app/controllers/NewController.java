@@ -45,6 +45,12 @@ import actors.TweetWordsActor.FindTweetWords;
 
 import akka.actor.AbstractActor;
 
+/**
+ * This controller contains an action to handle HTTP requests
+ * to the application's home page.
+ * <p>
+ * This class contains the methods to fetch data from the twitter API
+ */
 
 public class NewController extends Controller{
 
@@ -61,7 +67,17 @@ public class NewController extends Controller{
 		locationActor = system.actorOf(LocationActor.props());
 		userActor = system.actorOf(UserActor.props());
 	}
-	
+	/**
+	 * An action that renders an HTML page with a welcome message.
+	 * The configuration in the <code>routes</code> file means that
+	 * this method will be called when the application receives a
+	 * <code>GET</code> request with a path of <code>/</code>.
+	 * <p>
+	 * This method renders the index page and displays the message passed in the render method().
+	 *
+	 * @return Result
+	 * @author Pranav Bhatia
+	 */
 	 public Result index() {
 	        return ok(index.render("Welcome to TweetMiner"));
 	    }
@@ -71,22 +87,49 @@ public class NewController extends Controller{
 					.thenApply(tweets -> ok((ArrayNode) tweets)); //ask sends a message asynchronously and returns a Future 
 																  //representing a possible result
 	}*/
-	
+
+	/**
+	 * @param hashtag the hashtag with which the query is run
+	 * @return a Future of a result to be rendered to the HTML page
+	 * @author shireen
+	 * An action that renders a HTML page with tweets for a hashtag query
+	 */
 	public CompletionStage<Result> getHashtags(String hashtag){
 		return ask(hashtagActor, new HashTagTweets(hashtag), 5000)
 				.thenApply(hashtagTweets -> ok(locationTweets.render((List<Status>)hashtagTweets, "Hashtag Tweets")));
 	}
-	
+
+	/**
+	 * @param latitude  geolocation attribute of the owner of the tweet
+	 * @param longitude geolocation attribute of the owner of the tweet
+	 * @return a Future of a result to be rendered to the HTML page
+	 * @author Pranav Bhatia
+	 * An action that returns a HTML page with tweets from the specific geolocation
+	 */
 	public CompletionStage<Result> getLocation(String latitude, String longitude){
         return ask(locationActor, new LocationTweets(latitude, longitude), 5000)
         		.thenApply(tweets -> ok(locationTweets.render((List<Status>)tweets, "Location Tweets")));
     }
-	
-	 public CompletionStage<Result> getUserProfile(String username) throws Exception{
+
+	/**
+	 * @param username the name of the user whose profile is retrieved
+	 * @return a Future of a result to be rendered to the HTML page
+	 * @throws TwitterException
+	 * @author kritika
+	 * An action that returns a HTML page with the profile of the tweet owner
+	 */
+
+	public CompletionStage<Result> getUserProfile(String username) throws Exception{
 	     return ask(userActor, new UserProfile(username), 5000)
 	    		 .thenApply(tweetUser -> ok(user.render((UserModel)tweetUser)));
 	 }
-	 
+	/**
+	 * @param query search terms for which word level statistics are generated
+	 * @return a future of a result to be rendered to an HTML page
+	 * @throws Exception
+	 * @author nileesha
+	 * An action that renders a HTML page with word level statistics for an individual query
+	 */
 	 public CompletionStage<Result> getTweetWords (String query){
 		 return ask(tweetWordsActor, new FindTweetWords(query), 5000)
 				 .thenApply(tweetWordCount -> ok(tweetWords.render((Map<String, Long>)tweetWordCount, query)));

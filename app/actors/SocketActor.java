@@ -22,18 +22,36 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 public class SocketActor extends AbstractActor {
-	
+	/**
+	 * This actor class contains socket actor which is responsible
+	 * for creating and communicating with other keywords.
+	 * Also schedules an executerService which reactively
+	 * fetches tweets in fixed interval.
+	 */
 	private static ActorRef socketOut;
-	
+
+	/**
+	 * This sets the properties of the Socket Actor
+	 * @return
+	 * @author Simran Sidhu
+	 */
+
 	public static Props props(ActorRef socketOut) {
 		return Props.create(SocketActor.class, socketOut);
 	}
-
+	/**
+	 * This is the SocketActor class which sets the socket
+	 */
 	public SocketActor(ActorRef socketOut){
 		System.out.println("creating actor...");
 		this.socketOut = socketOut;
 	}
-	
+
+	/**
+	 * This is the TweetsWithSentiments class which displays the tweets along
+	 * with the setiments for the returned list of tweets.
+	 */
+
 	static public class TweetsWithSentiments {
 		
 		private ArrayNode tweetsArrayNode;
@@ -43,7 +61,13 @@ public class SocketActor extends AbstractActor {
 		}
 		
 	}
-	
+	/**
+	 * This class contains the information of the action that
+	 * an actor needs to perform when it gets the message
+	 * related to the tweets belonging to the searched keyword
+	 * @author Simran Sidhu
+	 * @return
+	 */
 	@Override
 	public Receive createReceive() {
 		return receiveBuilder()
@@ -58,6 +82,10 @@ public class SocketActor extends AbstractActor {
 				.build();
 	}
 
+	/**
+	 * This method fetches the Tweets and computes the sentiments
+	 * @param keyword
+	 */
 	private void fetchTweets(String keyword) {
 		Runnable tweetJob = new Runnable() {
 
