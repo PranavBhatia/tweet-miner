@@ -2,6 +2,7 @@ package controllers;
 
 import akka.actor.ActorSystem;
 import org.junit.*;
+import play.mvc.WebSocket;
 import services.TwitterService;
 import services.*;
 import static org.junit.Assert.*;
@@ -123,7 +124,7 @@ public class NewControllerTest {
     }
 
     @Test
-    public void getSentiment() throws Exception{
-        assertNotNull(controller.getTweetWords("dermicool"));
+    public void wsTest() throws Exception {
+
     }
 }

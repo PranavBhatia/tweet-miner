@@ -81,7 +81,7 @@ public class SentimentCompute {
 		  		.collect(Collectors.groupingBy(SentimentCompute::getTweetEmoji,Collectors.counting()));
 	     
 	    String emoji=SentimentCompute.computeEmoji(sentimentCounter, (  (int)(tweetHolder.size()  *  0.70)  ) );
-	    System.out.println(emoji);	
+	    System.out.println("final Emoji: "+emoji);
 	     ObjectNode tempTweetsObjectNode = Json.newObject();
 	     tempTweetsObjectNode=(ObjectNode) tweetsList.get(0);
 	     tempTweetsObjectNode.put("sentiments", emoji);
