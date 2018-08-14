@@ -7,7 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.TwitterApi;
-import services.TweetsService;
+import services.TwitterService;
 import services.TwitterObject;
 import static org.junit.Assert.*;
 import java.util.Arrays;
@@ -52,8 +52,7 @@ public class SentimentComputeUnitTest {
     public void testgetTweetEmojiHappy() throws Exception{
     	
     	TwitterObject.emotion=1;
-    	CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-    	ArrayNode testNode = testNodeFuture.get();        	
+    	ArrayNode testNode = TwitterService.getTweets("dermicool", 10);
     	String tweet=testNode.get(0).get("tweetsText").textValue();
         String expected_emotion=":-)";
         assertEquals(SentimentCompute.getTweetEmoji(tweet),expected_emotion);
@@ -64,8 +63,7 @@ public class SentimentComputeUnitTest {
     public void testgetTweetEmojiSad() throws Exception{
     	
     	TwitterObject.emotion=-1;
-    	CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-    	ArrayNode testNode = testNodeFuture.get();
+    	ArrayNode testNode = TwitterService.getTweets("dermicool", 10);
     	String tweet=testNode.get(0).get("tweetsText").textValue();         	
         String expected_emotion=":-(";
         assertEquals(SentimentCompute.getTweetEmoji(tweet),expected_emotion);
@@ -77,8 +75,7 @@ public class SentimentComputeUnitTest {
     public void testgetTweetEmojiNeutral() throws Exception{
     	
     	TwitterObject.emotion=2;
-    	CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-    	ArrayNode testNode = testNodeFuture.get();
+    	ArrayNode testNode = TwitterService.getTweets("dermicool", 10);
     	String tweet=testNode.get(0).get("tweetsText").textValue();    	
         String expected_emotion=":-|";
         assertEquals(SentimentCompute.getTweetEmoji(tweet),expected_emotion);
@@ -95,8 +92,7 @@ public class SentimentComputeUnitTest {
     public void testsmileyLevelStatistic_happy() throws Exception,TwitterException{
     	
     	TwitterObject.emotion=1;    	
-        CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-        ArrayNode input=testNodeFuture.get();
+        ArrayNode input = TwitterService.getTweets("dermicool", 10);
         System.out.println("Fetched :"+input.get(0).get("tweetsText").textValue());
         System.out.println("----------------------------------");
         ArrayNode output= SentimentCompute.smileyLevelStatistic(input);
@@ -114,8 +110,7 @@ public class SentimentComputeUnitTest {
     @Test
     public void testsmileyLevelStatistic_sad() throws Exception{
     	TwitterObject.emotion=-1;    
-        CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-        ArrayNode input=testNodeFuture.get();
+        ArrayNode input = TwitterService.getTweets("dermicool", 10);
         System.out.println("Fetched :"+input.get(0).get("tweetsText").textValue());
         System.out.println("----------------------------------");
         ArrayNode output= SentimentCompute.smileyLevelStatistic(input);
@@ -133,8 +128,7 @@ public class SentimentComputeUnitTest {
     public void testsmileyLevelStatistic_neutral() throws Exception{
       
     	TwitterObject.emotion=2;
-    	CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-        ArrayNode input=testNodeFuture.get();
+    	ArrayNode input = TwitterService.getTweets("dermicool", 10);
         System.out.println("Fetched :"+input.get(0).get("tweetsText").textValue());
         System.out.println("----------------------------------");
         ArrayNode output= SentimentCompute.smileyLevelStatistic(input);

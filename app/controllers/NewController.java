@@ -45,10 +45,14 @@ import actors.TweetWordsActor.FindTweetWords;
 
 import akka.actor.AbstractActor;
 
-
+/***
+ * @author v6
+ *This controller contains an action to handle HTTP requests
+ * to the application's home page.
+ * This class contains the methods to fetch data from the twitter API
+ */
 public class NewController extends Controller{
 
-	//private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 	public static ActorRef sentimentActor, tweetWordsActor, hashtagActor, locationActor, userActor ;
 
 	@Inject private ActorSystem actorSystem;
@@ -62,16 +66,21 @@ public class NewController extends Controller{
 		userActor = system.actorOf(UserActor.props());
 	}
 	
+	/**
+     * An action that renders an HTML page with a welcome message.
+     * The configuration in the <code>routes</code> file means that
+     * this method will be called when the application receives a
+     * <code>GET</code> request with a path of <code>/</code>.
+     * <p>
+     * This method renders the index page and displays the message passed in the render method().
+     *
+     * @return Result
+     * @author v6
+     */
 	 public Result index() {
 	        return ok(index.render("Welcome to TweetMiner"));
 	    }
-	 /*   
-	public CompletionStage<Result> search(String keyword){
-		return ask(twitterActor, new FindTweets(keyword), 5000)
-					.thenApply(tweets -> ok((ArrayNode) tweets)); //ask sends a message asynchronously and returns a Future 
-																  //representing a possible result
-	}*/
-	
+	    
 	public CompletionStage<Result> getHashtags(String hashtag){
 		return ask(hashtagActor, new HashTagTweets(hashtag), 5000)
 				.thenApply(hashtagTweets -> ok(locationTweets.render((List<Status>)hashtagTweets, "Hashtag Tweets")));

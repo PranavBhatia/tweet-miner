@@ -10,9 +10,10 @@ import play.inject.guice.GuiceApplicationBuilder;
 import play.Application;
 import play.libs.Json;
 import play.test.Helpers;
-import services.TweetsService;
 import services.TwitterApi;
 import services.TwitterObject;
+import services.TwitterService;
+
 import static play.inject.Bindings.bind;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -65,8 +66,7 @@ public class TweetWordsModelUnitTest {
     public void tweetWords() throws Exception {
     	
     	TwitterObject.emotion=1; //Making call to PseudoHappy class
-    	CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-    	ArrayNode testNode = testNodeFuture.get();
+    	ArrayNode testNode = TwitterService.getTweets("dermicool", 10);
     	Map<String,Long> actualMap=TweetWordsModel.tweetWords(testNode);
     	assertEquals(4, actualMap.size());
     	

@@ -2,8 +2,7 @@ package controllers;
 
 import akka.actor.ActorSystem;
 import org.junit.*;
-import services.TweetsService;
-
+import services.TwitterService;
 import static org.junit.Assert.*;
 
 /**
@@ -52,17 +51,6 @@ public class HomeControllerUnitTest {
 
     /**
      * @author pranav
-     * Tests an action that returns a HTML page with data
-     * and does not returns null
-     * @throws Exception
-     */
-    @Test
-    public void search() throws Exception{
-        assertNotNull(controller.search("dermicool"));
-    }
-
-    /**
-     * @author pranav
      * Tests an action that renders a HTML page with tweets for a hashtag query
      * and does not return null
      * @throws Exception
@@ -104,7 +92,7 @@ public class HomeControllerUnitTest {
      */
     @Test
     public void getUserTweets() throws Exception{
-        assertNotNull(TweetsService.getUserTweets("dermicool"));
+        assertNotNull(TwitterService.getUser("dermicool"));
     }
 
     /**

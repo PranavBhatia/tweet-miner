@@ -1,6 +1,9 @@
 package services;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import Model.UserModel;
+
 import org.junit.*;
 import play.test.Helpers;
 import twitter4j.Status;
@@ -57,8 +60,7 @@ public class TweetsServiceUnitTest {
     @Test
     public void testGetTweets_checkUser() throws Exception{
     	
-        CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-        ArrayNode testNode = testNodeFuture.get();
+        ArrayNode testNode = TwitterService.getTweets("dermicool", 10);
         assertEquals(testNode.get(0).get("userName").asText(), "Rodolfo");
     }
 
@@ -71,8 +73,7 @@ public class TweetsServiceUnitTest {
     @Test
     public void testGetTweets_checkSize() throws Exception{
     	
-        CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-        ArrayNode testNode = testNodeFuture.get();
+        ArrayNode testNode = TwitterService.getTweets("dermicool", 10);
         assertTrue(testNode.size() > 0);
     }
 
@@ -85,8 +86,7 @@ public class TweetsServiceUnitTest {
     @Test
     public void getHashtagTweets() throws Exception{
     	
-        CompletableFuture<List<Status>> listCompletableFuture = TweetsService.getHashtagTweets("dermicool");
-        ArrayList<Status> statusArrayList = (ArrayList<Status>) listCompletableFuture.get();
+        List<Status> statusArrayList = TwitterService.getHashtagTweets("dermicool");
         assertTrue(statusArrayList.size() > 0);
     }
 
@@ -99,8 +99,8 @@ public class TweetsServiceUnitTest {
     @Test
     public void testGetLocationTweets_locationNull() throws Exception{
        
-        CompletableFuture<List<Status>> listCompletableFuture = TweetsService.getLocationTweets("45.5363999", "-73.5614825");
-        assertTrue(listCompletableFuture.get().size() > 0);
+        List<Status> list = TwitterService.getLocationTweets("45.5363999", "-73.5614825");
+        assertTrue(list.size() > 0);
     }
 
    /* @Test
@@ -119,7 +119,8 @@ public class TweetsServiceUnitTest {
     @Test
     public void getUser() throws Exception{
         
-        CompletableFuture<User> testNodeFuture = TweetsService.getUser("Rodolfo");
-        System.out.println(testNodeFuture.get());
+        UserModel testNodeFuture = TwitterService.getUser("Rodolfo");
+        assertNotNull(testNodeFuture);
+
     }
 }
