@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 
 import actors.TweetWordsActor;
 import actors.TweetWordsActor.FindTweetWords;
+import services.TwitterObject;
 
 /***
  * Class to test TweetWords actor
@@ -31,6 +32,8 @@ public class TweetWordsActorTest {
     @BeforeClass
     public static void setUp() throws Exception {
         system = ActorSystem.create();
+        TwitterObject.testCase = true;
+        TwitterObject.emotion = 1;
         tweetWordsActor = system.actorOf(TweetWordsActor.props());
         tweetWords = new FindTweetWords("Canada");
     }
@@ -41,6 +44,8 @@ public class TweetWordsActorTest {
      */
     @AfterClass
     public static void teardown() {
+        TwitterObject.testCase = false;
+        TwitterObject.emotion = 0;
         TestKit.shutdownActorSystem(system);
         system = null;
     }

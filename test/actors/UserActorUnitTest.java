@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import akka.testkit.javadsl.TestKit;
+import services.TwitterObject;
 
 /***
  * @author Kritika
@@ -27,6 +28,8 @@ public class UserActorUnitTest {
     @BeforeClass
     public static void setUp() throws Exception {
         system = ActorSystem.create();
+        TwitterObject.testCase = true;
+        TwitterObject.emotion = 1;
         userActor = system.actorOf(UserActor.props());
         userTweets = new UserActor.UserProfile("Nileesha");
     }
@@ -38,6 +41,8 @@ public class UserActorUnitTest {
      */
     @AfterClass
     public static void teardown() {
+        TwitterObject.testCase = false;
+        TwitterObject.emotion = 0;
         TestKit.shutdownActorSystem(system);
         system = null;
     }

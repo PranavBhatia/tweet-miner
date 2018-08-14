@@ -14,6 +14,7 @@ import actors.SentimentActor.ComputeSentiment;
 import static org.junit.Assert.*;
 import akka.testkit.javadsl.TestKit;
 import play.libs.Json;
+import services.TwitterObject;
 
 public class SentimentActorUnitTest {
 	public static ActorSystem system;
@@ -27,7 +28,8 @@ public class SentimentActorUnitTest {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-    	
+        TwitterObject.testCase = true;
+        TwitterObject.emotion = 1;
     	 ObjectNode tempTweetsObjectNode1 = Json.newObject();
          tempTweetsObjectNode1.put("tweetsText", "I am happy 🙂");
          ObjectNode tempTweetsObjectNode2 = Json.newObject();
@@ -49,6 +51,8 @@ public class SentimentActorUnitTest {
      */
     @AfterClass
     public static void teardown() {
+        TwitterObject.testCase = false;
+        TwitterObject.emotion = 0;
         TestKit.shutdownActorSystem(system);
         system = null;
     }

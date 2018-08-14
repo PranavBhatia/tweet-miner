@@ -15,6 +15,7 @@ import actors.SocketActor.TweetsWithSentiments;
 import static org.junit.Assert.*;
 import akka.testkit.javadsl.TestKit;
 import play.libs.Json;
+import services.TwitterObject;
 
 /**
  * testing the socket actor
@@ -36,6 +37,8 @@ public class SocketActorUnitTest {
     @BeforeClass
     public static void setUp() throws Exception {
         system = ActorSystem.create();
+        TwitterObject.testCase = true;
+        TwitterObject.emotion = 1;
         socketActor = system.actorOf(SocketActor.props(socketActor));
         
         ObjectNode tempTweetsObjectNode1 = Json.newObject();
@@ -56,6 +59,8 @@ public class SocketActorUnitTest {
      */
     @AfterClass
     public static void teardown() {
+        TwitterObject.testCase = false;
+        TwitterObject.emotion = 0;
         TestKit.shutdownActorSystem(system);
         system = null;
     }

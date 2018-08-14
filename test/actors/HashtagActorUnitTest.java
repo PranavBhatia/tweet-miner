@@ -8,6 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import akka.testkit.javadsl.TestKit;
+import services.TwitterObject;
 
 /***
  * test class for hashtag actor
@@ -27,6 +28,8 @@ public class HashtagActorUnitTest {
 	    @BeforeClass
 	    public static void setUp() throws Exception {
 	        system = ActorSystem.create();
+			TwitterObject.testCase = true;
+			TwitterObject.emotion = 1;
 	        hashtagActor = system.actorOf(UserActor.props());
 	        hashtagTweets = new HashtagActor.HashTagTweets("dermicool");
 	    }
@@ -37,6 +40,8 @@ public class HashtagActorUnitTest {
 	     */
 	    @AfterClass
 	    public static void teardown() {
+            TwitterObject.testCase = false;
+            TwitterObject.emotion = 0;
 	        TestKit.shutdownActorSystem(system);
 	        system = null;
 	    }
