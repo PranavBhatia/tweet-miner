@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * handles the HTTP requests to the home page.
  */
 
-public class HomeControllerUnitTest {
+public class NewControllerTest {
 
     public static NewController controller;
     public static ActorSystem system;
@@ -43,7 +43,7 @@ public class HomeControllerUnitTest {
         TwitterObject.emotion = 0;
     }
 
-    /**	
+    /**
      * @author pranav
      * Tests that the controller returns a HTML page as Result
      * and doesn't return a null

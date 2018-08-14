@@ -7,7 +7,6 @@ import akka.actor.Props;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import services.TweetsService;
 import java.util.List;
 import twitter4j.User;
 import twitter4j.Status;

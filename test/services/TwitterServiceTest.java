@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
  *  the twitter api to retrieve tweets based on a keyword
  */
 
-public class TwitterServiceUnitTest {
+public class TwitterServiceTest {
     /**
      * @author pranav
      *  Creates the environment for testing the Tweets Service Class
@@ -31,9 +31,9 @@ public class TwitterServiceUnitTest {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-    	
-       TwitterObject.testCase = true;
-       TwitterObject.emotion = 1;
+
+        TwitterObject.testCase = true;
+        TwitterObject.emotion = 1;
     }
 
     /**
@@ -58,8 +58,8 @@ public class TwitterServiceUnitTest {
      */
     @Test
     public void testGetTweets_checkUser() throws Exception{
-    	
-    	ArrayNode testNodeFuture = TwitterService.getTweets("dermicool", 10);
+
+        ArrayNode testNodeFuture = TwitterService.getTweets("dermicool", 10);
         ArrayNode testNode = testNodeFuture;
         assertEquals(testNode.get(0).get("userName").asText(), "Rodolfo");
     }
@@ -72,8 +72,8 @@ public class TwitterServiceUnitTest {
      */
     @Test
     public void testGetTweets_checkSize() throws Exception{
-    	
-    	ArrayNode testNodeFuture = TwitterService.getTweets("dermicool", 10);
+
+        ArrayNode testNodeFuture = TwitterService.getTweets("dermicool", 10);
         ArrayNode testNode = testNodeFuture;
         assertTrue(testNode.size() > 0);
     }
@@ -86,7 +86,7 @@ public class TwitterServiceUnitTest {
      */
     @Test
     public void getHashtagTweets() throws Exception{
-    	
+
         List<Status> listCompletableFuture = TwitterService.getHashtagTweets("dermicool");
         ArrayList<Status> statusArrayList = (ArrayList<Status>) listCompletableFuture;
         assertTrue(statusArrayList.size() > 0);
@@ -100,7 +100,7 @@ public class TwitterServiceUnitTest {
      */
     @Test
     public void testGetLocationTweets_locationNull() throws Exception{
-       
+
         List<Status> listCompletableFuture = TwitterService.getLocationTweets("45.5363999", "-73.5614825");
         assertTrue(listCompletableFuture.size() > 0);
     }
@@ -120,7 +120,7 @@ public class TwitterServiceUnitTest {
      */
     @Test
     public void getUser() throws Exception{
-        
+
         UserModel testNodeFuture = TwitterService.getUser("Rodolfo");
         System.out.println(testNodeFuture.getUser());
     }
