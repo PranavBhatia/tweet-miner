@@ -25,6 +25,9 @@ public class SentimentCompute {
 	 * :-) : A Tweet that hold only happy and no sad emoticon 
 	 * :-( : A tweet which has only sad and no happy emoticon 
 	 * :-| : All tweets that have no Emoticons or the ones with mix expression ,both happy and sad emoticon.
+	 *  During testing - since we test for one tweet holding happy/sad/no emoticon from the MockClass - 
+	 *  we are testing for one of the below 4 types of happy emoticons in testing and similarly we test 
+	 *  for one of below 4 mentioned sad Unicode twitter Emoticons.  
 	 */
 	public static String getTweetEmoji (String tweet)
 	{
