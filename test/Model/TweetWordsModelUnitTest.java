@@ -10,7 +10,7 @@ import play.inject.guice.GuiceApplicationBuilder;
 import play.Application;
 import play.libs.Json;
 import play.test.Helpers;
-import services.TweetsService;
+import services.TwitterService;
 import services.TwitterApi;
 import services.TwitterObject;
 import static play.inject.Bindings.bind;
@@ -63,34 +63,12 @@ public class TweetWordsModelUnitTest {
      */
     @Test
     public void tweetWords() throws Exception {
-    	
+    	System.out.println("cnkjhgc vbnkjhugvg b");
     	TwitterObject.emotion=1; //Making call to PseudoHappy class
-    	CompletableFuture<ArrayNode> testNodeFuture = TweetsService.getTweets("dermicool", 10);
-    	ArrayNode testNode = testNodeFuture.get();
+    	ArrayNode testNodeFuture= TwitterService.getTweets("dermicool", 10);
+    	ArrayNode testNode = testNodeFuture;
     	Map<String,Long> actualMap=TweetWordsModel.tweetWords(testNode);
-    	assertEquals(4, actualMap.size());
-    	
-       /* ArrayNode arrayNode = Json.newArray();
-
-
-        ObjectNode tempTweetsObjectNode1 = Json.newObject();
-        tempTweetsObjectNode1.put("tweetsText", "I am happy 🙂");
-        ObjectNode tempTweetsObjectNode2 = Json.newObject();
-        tempTweetsObjectNode2.put("tweetsText", "I am happy 🙂");
-
-        arrayNode.add(tempTweetsObjectNode1);
-        arrayNode.add(tempTweetsObjectNode2);
-
-
-        Map<String, Long> expectedMap = new HashMap();
-        expectedMap.put("I",Integer.toUnsignedLong(1));
-        expectedMap.put("am",Integer.toUnsignedLong(1));
-        expectedMap.put("happy",Integer.toUnsignedLong(1));
-        expectedMap.put("🙂",Integer.toUnsignedLong(1));*/
-
-
-        //Map<String, Long> actualMap = TweetWordsModel.tweetWords(arrayNode);
-        
+    	assertEquals(4, actualMap.size());     
     }
 
     /**
