@@ -1,10 +1,18 @@
 package controllers;
 
 import akka.actor.ActorSystem;
+import akka.stream.javadsl.Flow;
 import org.junit.*;
+import play.http.websocket.Message;
+import play.libs.F;
+import play.mvc.Http;
+import play.mvc.Result;
 import play.mvc.WebSocket;
 import services.TwitterService;
 import services.*;
+
+import java.util.concurrent.CompletionStage;
+
 import static org.junit.Assert.*;
 
 /**
@@ -123,8 +131,4 @@ public class NewControllerTest {
         assertNotNull(controller.getTweetWords("dermicool"));
     }
 
-    @Test
-    public void wsTest() throws Exception {
-
-    }
 }

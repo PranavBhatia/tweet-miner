@@ -25,7 +25,7 @@ public class SentimentCompute {
 	 * :-) : A Tweet that hold only happy and no sad emoticon 
 	 * :-( : A tweet which has only sad and no happy emoticon 
 	 * :-| : All tweets that have no Emoticons or the ones with mix expression ,both happy and sad emoticon.
-	 */	
+	 */
 	public static String getTweetEmoji (String tweet)
 	{
 		if (( tweet.contains("\uD83D\uDE42") || tweet.contains("\uD83D\uDE0A") || tweet.contains("\u1F60A") || tweet.contains("\uD83D\uDE0C")) 

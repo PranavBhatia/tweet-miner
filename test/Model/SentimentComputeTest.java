@@ -36,6 +36,11 @@ import play.test.Helpers;
 public class SentimentComputeTest {
 
 
+    /**
+     * @throws Exception
+     * @author Simran
+     * Sets the environment by setting the TwitterObject's Parameter - testCase to true.
+     */
     @BeforeClass
     public static void setUp() throws Exception {
         TwitterObject.testCase = true;
@@ -54,6 +59,12 @@ public class SentimentComputeTest {
         Helpers.stop(TwitterObject.testApp);
     }
 
+    /**
+     * @author Simran
+     * This method tests if a given tweet has one of 4 happy emoticon - 🙂 and no sad emoticon
+     * @throws Exception
+     */
+
 
     @Test
     public void testgetTweetEmojiHappy() throws Exception {
@@ -65,7 +76,11 @@ public class SentimentComputeTest {
         assertEquals(SentimentCompute.getTweetEmoji(tweet), expected_emotion);
     }
 
-
+    /**
+     * @author Simran
+     * This method tests one of 4 sad emoticon - 😞 and no happy emoticons
+     * @throws Exception
+     */
     @Test
     public void testgetTweetEmojiSad() throws Exception {
         TwitterObject.emotion = -1;
@@ -76,7 +91,11 @@ public class SentimentComputeTest {
         assertEquals(SentimentCompute.getTweetEmoji(tweet), expected_emotion);
     }
 
-
+    /**
+     * @author Simran
+     * This method tests if the given tweet is neither sad nor happy
+     * @throws Exception
+     */
     @Test
     public void testgetTweetEmojiNeutral() throws Exception {
         TwitterObject.emotion = 2;
