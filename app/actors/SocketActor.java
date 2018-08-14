@@ -61,6 +61,10 @@ public class SocketActor extends AbstractActor {
 			
 		}
 		
+		public ArrayNode getTweetsArrayNode () {
+			return this.tweetsArrayNode;
+		}
+		
 	}
 	/**
 	 * This class contains the information of the action that

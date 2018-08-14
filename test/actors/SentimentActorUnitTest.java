@@ -5,48 +5,46 @@ import akka.actor.ActorSystem;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+import static akka.pattern.PatternsCS.ask;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import actors.SentimentActor.ComputeSentiment;
 
 import static org.junit.Assert.*;
+import play.test.Helpers;
+import java.util.concurrent.CompletionStage;
+
 import akka.testkit.javadsl.TestKit;
 import play.libs.Json;
 import services.TwitterObject;
+import services.TwitterService;
 
 public class SentimentActorUnitTest {
+	
 	public static ActorSystem system;
     public static ActorRef sentimentActor;
     public static ComputeSentiment computeSentiment;
-    static ArrayNode arrayNode;
+    public static ArrayNode arrayNode;
+	
+	
     /**
-     * @author simran
+     * @author v6
      * Sets up test environment by creating actor system using the actor testkit
      * @throws Exception
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        TwitterObject.testCase = true;
-        TwitterObject.emotion = 1;
-    	 ObjectNode tempTweetsObjectNode1 = Json.newObject();
-         tempTweetsObjectNode1.put("tweetsText", "I am happy 🙂");
-         ObjectNode tempTweetsObjectNode2 = Json.newObject();
-         tempTweetsObjectNode2.put("tweetsText", "I am happy 🙂");
-         
-         arrayNode = Json.newArray();
-         
-         arrayNode.add(tempTweetsObjectNode1);
-         arrayNode.add(tempTweetsObjectNode2);
-    	
-        system = ActorSystem.create();
-        sentimentActor = system.actorOf(TweetWordsActor.props());
-        computeSentiment = new ComputeSentiment(arrayNode);
+    	  TwitterObject.testCase = true;
+          TwitterObject.emotion = 1;
+          system = ActorSystem.create();
+          sentimentActor = system.actorOf(SentimentActor.props());
+          arrayNode=TwitterService.getTweets("dermicool", 10);
+          computeSentiment = new ComputeSentiment(arrayNode);
     }
     
     /***
-     * @author simran
+     * @author v6
      * Shuts down actor system using actor testkit
      */
     @AfterClass
@@ -58,26 +56,26 @@ public class SentimentActorUnitTest {
     }
     
     /***
-     * @author simran
+     * @author v6
      * test instantiating sentiments actor
      */    
     @Test
     public void testProps() {
-        computeSentiment = new SentimentActor.ComputeSentiment(arrayNode);
-        assertNotNull(computeSentiment);
+    	assertNotNull(SentimentActor.props());
     }
     
     /***
-     * @author simran
-     * tests message passing in the sentiment actor
+     * @author v6
+     * tests message passing in the sentiment actor.
      */
     @Test
     public void testCreateReceive() {
-    	sentimentActor.tell(computeSentiment, ActorRef.noSender());
-    	sentimentActor.tell(sentimentActor, ActorRef.noSender());
-    	sentimentActor.tell(SentimentActor.class, ActorRef.noSender());
-        assertNotNull(sentimentActor);
+    	
+    	TestKit probe = new TestKit(system);    		
+    	sentimentActor.tell(computeSentiment, probe.getRef());
+        SocketActor.TweetsWithSentiments result=probe.expectMsgClass(SocketActor.TweetsWithSentiments.class);
+    	String actual_result=result.getTweetsArrayNode().get(0).get("sentiments").textValue();
+        String expected_sentiment=":-)";
+        assertEquals(actual_result,expected_sentiment);
     }
-    
-
 }
